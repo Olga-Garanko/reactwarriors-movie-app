@@ -9,13 +9,23 @@ export default class App extends React.Component {
     this.state = {
       filters: {
         sort_by: "popularity.desc",
-        primary_release_year: 2018
+        primary_release_year: 2019,
+        with_genres: ""
       },
       page: 1
     };
   }
 
-  onChangeFilters = event => {
+  onCheck = event => {
+    const newValues = {
+      ...this.state.values,
+      [event.target.name]: event.target.checked
+    };
+    this.setState({
+      values: newValues
+    });
+  };
+  onSelect = event => {
     const value = event.target.value;
     const name = event.target.name;
     this.setState(prevState => ({
@@ -33,7 +43,8 @@ export default class App extends React.Component {
   };
   onClearFilters = () => {
     this.setState(prevState => ({
-      filters: undefined
+      filters: undefined,
+      page: 1
     }));
   }
 
@@ -49,7 +60,7 @@ export default class App extends React.Component {
                 <Filters
                   page={page}
                   filters={filters}
-                  onChangeFilters={this.onChangeFilters}
+                  onSelect={this.onSelect}
                   onChangePage={this.onChangePage}
                   onClearFilters={this.onClearFilters}
                 />

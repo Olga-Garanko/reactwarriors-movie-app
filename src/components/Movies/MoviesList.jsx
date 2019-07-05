@@ -17,7 +17,8 @@ export default class MovieList extends Component {
   static defaultProps = {
     filters: {
       sort_by: "popularity.desc",
-      primary_release_year: 2018
+      primary_release_year: 2019,
+      with_genres: ""
     }
   };
 
