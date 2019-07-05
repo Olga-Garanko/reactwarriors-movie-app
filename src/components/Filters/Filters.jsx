@@ -1,6 +1,6 @@
 import React from "react";
 import Select from "../Common/Select";
-/*import PropTypes from "prop-types";*/
+import PropTypes from "prop-types";
 const FiltersOptions = {
   sort_by: [
     {
@@ -26,7 +26,7 @@ const FiltersOptions = {
   ]
 }
 export default class Filters extends React.Component {
-/*  static propTypes = {
+  static propTypes = {
     filters: PropTypes.object.isRequired
   };
   static defaultProps = {
@@ -34,7 +34,7 @@ export default class Filters extends React.Component {
       sort_by: "popularity.desc",
       primary_release_year: 2018
     }
-  }*/
+  }
   render() {
     const {
       filters: { sort_by, primary_release_year },

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import MovieItem from "./MovieItem";
 import { API_URL, API_KEY_3 } from "../../api/api";
-/*import PropTypes from "prop-types";*/
+import PropTypes from "prop-types";
 
 export default class MovieList extends Component {
   constructor() {
@@ -11,7 +11,7 @@ export default class MovieList extends Component {
       movies: []
     };
   }
-/*  static propTypes = {
+  static propTypes = {
     filters: PropTypes.object.isRequired
   };
   static defaultProps = {
@@ -19,7 +19,7 @@ export default class MovieList extends Component {
       sort_by: "popularity.desc",
       primary_release_year: 2018
     }
-  };*/
+  };
 
   getMovies = (filters, page) => {
     let filtersParam = '';
