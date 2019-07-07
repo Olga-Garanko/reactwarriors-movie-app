@@ -12,6 +12,11 @@ export default class App extends React.Component {
         primary_release_year: 2019,
         with_genres: ""
       },
+      initialFilters: {
+        sort_by: "popularity.desc",
+        primary_release_year: 2019,
+        with_genres: ""
+      },
       page: 1
     };
   }
@@ -42,8 +47,9 @@ export default class App extends React.Component {
     });
   };
   onClearFilters = () => {
+    console.log(this.initialFilters)
     this.setState(prevState => ({
-      filters: undefined,
+      filters: this.state.initialFilters,
       page: 1
     }));
   }
