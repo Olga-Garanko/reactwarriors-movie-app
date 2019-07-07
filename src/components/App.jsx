@@ -10,26 +10,34 @@ export default class App extends React.Component {
       filters: {
         sort_by: "popularity.desc",
         primary_release_year: 2019,
-        with_genres: ""
+        with_genres: []
       },
       initialFilters: {
         sort_by: "popularity.desc",
         primary_release_year: 2019,
-        with_genres: ""
+        with_genres: []
       },
       page: 1
     };
   }
 
-  onCheck = event => {
-    const newValues = {
-      ...this.state.values,
-      [event.target.name]: event.target.checked
-    };
+  onCheckGenre = event => {
+    const newValues = this.state.filters.with_genres;
+    if (event.target.checked) {
+      newValues.push(parseInt(event.target.name))
+    } else {
+      const index = newValues.indexOf(parseInt(event.target.name));
+      if (index !== -1) {
+          newValues.splice(index, 1);
+      }
+    }
     this.setState({
-      values: newValues
+      filters: {
+        with_genres: newValues
+      }
     });
   };
+
   onSelect = event => {
     const value = event.target.value;
     const name = event.target.name;
@@ -46,8 +54,8 @@ export default class App extends React.Component {
       page
     });
   };
+  
   onClearFilters = () => {
-    console.log(this.initialFilters)
     this.setState(prevState => ({
       filters: this.state.initialFilters,
       page: 1
@@ -67,6 +75,7 @@ export default class App extends React.Component {
                   page={page}
                   filters={filters}
                   onSelect={this.onSelect}
+                  onCheckGenre={this.onCheckGenre}
                   onChangePage={this.onChangePage}
                   onClearFilters={this.onClearFilters}
                 />

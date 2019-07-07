@@ -4,9 +4,7 @@ const Checkbox = props => {
   const {
     id,
     label,
-    type,
     name,
-    value,
     checked,
     onCheck
   } = props;
@@ -15,10 +13,9 @@ const Checkbox = props => {
       <div className="form-check">
         <input
           id={id}
-          type={type}
+          type='checkbox'
           className="form-check-input"
           name={name}
-          value={value}
           checked={checked}
           onChange={onCheck}
         />

@@ -1,6 +1,7 @@
 import React from "react";
 import Select from "../Common/Select";
 import Checkbox from "../Common/Checkbox";
+import { API_URL, API_KEY_3 } from "../../api/api";
 import PropTypes from "prop-types";
 const FiltersOptions = {
   sort_by: [
@@ -31,6 +32,13 @@ const FiltersOptions = {
   ]
 }
 export default class Filters extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      genres: []
+    };
+  }
   static propTypes = {
     filters: PropTypes.object.isRequired
   };
@@ -38,16 +46,34 @@ export default class Filters extends React.Component {
     filters: {
       sort_by: "popularity.desc",
       primary_release_year: 2019,
-      with_genres: ""
+      with_genres: []
     }
+  };
+
+  getGenres = () => {
+    const link = `${API_URL}/genre/movie/list?api_key=${API_KEY_3}&language=ru-RU`;
+    fetch(link)
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        this.setState({
+          genres: data.genres
+        });
+      });
+  };
+
+  componentDidMount() {
+    this.getGenres();
   }
+
   render() {
+    const { genres } = this.state;
     const {
-      filters: { sort_by, primary_release_year },
+      filters: { sort_by, primary_release_year, with_genres },
       page,
-      with_genres,
       onSelect,
-      onCheck,
+      onCheckGenre,
       onChangePage,
       onClearFilters
     } = this.props;
@@ -71,16 +97,23 @@ export default class Filters extends React.Component {
           options={FiltersOptions.primary_release_years}
           onSelect={onSelect}
         />
-        <Checkbox
-          className="form-check-input"
-          type="checkbox"
-          id="genre01"
-          label="genre01"
-          name="genre01"
-          value={with_genres}
-          onCheck={onCheck}
-          checked={with_genres}
-        />
+        <p>Genres</p>
+        <div className="genres">
+          {genres.map(genre => {
+            return (
+              <Checkbox
+                key={genre.id}
+                className="form-check-input"
+                type="checkbox"
+                id={genre.id}
+                label={genre.name}
+                name={genre.id}
+                onCheck={onCheckGenre}
+                checked={with_genres.includes(genre.id)}
+              />
+            );
+          })}
+        </div>
         <div className="form-group">
           <button
             type="button"
