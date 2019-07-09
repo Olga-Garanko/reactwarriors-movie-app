@@ -21,23 +21,28 @@ export default class App extends React.Component {
 
   onCheckGenre = event => {
 
-    const newValues = [...this.state.filters.with_genres];
+    const name = parseInt(event.target.name),
+          checked = event.target.checked;
 
-    if (event.target.checked) {
-      newValues.push(parseInt(event.target.name))
-    } else {
-      const index = newValues.indexOf(parseInt(event.target.name));
-      if (index !== -1) {
-          newValues.splice(index, 1);
+    this.setState(prevState => {
+
+      let newValues = [];
+
+      if (checked) {
+        newValues = [...prevState.filters.with_genres, name]
+      } else {
+        let remove = prevState.filters.with_genres.indexOf(name);
+        newValues = [...prevState.filters.with_genres.filter((_, i) => i !== remove)]
       }
-    }
 
-    this.setState(prevState => ({
-      filters: {
+      return {
+        filters: {
         ...prevState.filters,
         with_genres: newValues
+        }
       }
-    }));
+      
+    });
   };
 
   onSelect = event => {
