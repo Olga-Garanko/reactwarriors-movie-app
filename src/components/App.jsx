@@ -1,22 +1,16 @@
 import React from "react";
 import Filters from "./Filters/Filters";
 import MoviesList from "./Movies/MoviesList";
-
+const initialFilters = {
+    sort_by: "popularity.desc",
+    primary_release_year: new Date().getFullYear(),
+    with_genres: []
+};
 export default class App extends React.Component {
   constructor() {
     super();
-
     this.state = {
-      filters: {
-        sort_by: "popularity.desc",
-        primary_release_year: 2019,
-        with_genres: []
-      },
-      initialFilters: {
-        sort_by: "popularity.desc",
-        primary_release_year: 2019,
-        with_genres: []
-      },
+      filters: initialFilters,
       page: 1
     };
   }
@@ -31,11 +25,12 @@ export default class App extends React.Component {
           newValues.splice(index, 1);
       }
     }
-    this.setState({
+    this.setState(prevState => ({
       filters: {
+        ...prevState.filters,
         with_genres: newValues
       }
-    });
+    }));
   };
 
   onSelect = event => {
@@ -57,7 +52,7 @@ export default class App extends React.Component {
   
   onClearFilters = () => {
     this.setState(prevState => ({
-      filters: this.state.initialFilters,
+      filters: initialFilters,
       page: 1
     }));
   }

@@ -14,13 +14,6 @@ export default class MovieList extends Component {
   static propTypes = {
     filters: PropTypes.object.isRequired
   };
-  static defaultProps = {
-    filters: {
-      sort_by: "popularity.desc",
-      primary_release_year: 2019,
-      with_genres: []
-    }
-  };
 
   getMovies = (filters, page) => {
     let filtersParam = '';
@@ -45,6 +38,7 @@ export default class MovieList extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    console.log(prevProps)
     if (this.props.filters.sort_by !== prevProps.filters.sort_by || this.props.filters.primary_release_year !== prevProps.filters.primary_release_year || this.props.filters.with_genres !== prevProps.filters.with_genres) {
       this.props.onChangePage(1);
       this.getMovies(this.props.filters, 1);

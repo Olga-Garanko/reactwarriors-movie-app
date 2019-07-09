@@ -42,13 +42,6 @@ export default class Filters extends React.Component {
   static propTypes = {
     filters: PropTypes.object.isRequired
   };
-  static defaultProps = {
-    filters: {
-      sort_by: "popularity.desc",
-      primary_release_year: 2019,
-      with_genres: []
-    }
-  };
 
   getGenres = () => {
     const link = `${API_URL}/genre/movie/list?api_key=${API_KEY_3}&language=ru-RU`;
