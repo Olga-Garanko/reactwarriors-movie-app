@@ -1,22 +1,28 @@
 import React from "react";
 import Filters from "./Filters/Filters";
 import MoviesList from "./Movies/MoviesList";
-const initialFilters = {
-    sort_by: "popularity.desc",
-    primary_release_year: new Date().getFullYear(),
-    with_genres: []
-};
+
 export default class App extends React.Component {
   constructor() {
     super();
+
+    this.initialFilters = {
+        sort_by: "popularity.desc",
+        primary_release_year: new Date().getFullYear(),
+        with_genres: []
+    };
+
     this.state = {
-      filters: initialFilters,
+      filters: this.initialFilters,
       page: 1
     };
   }
 
+
   onCheckGenre = event => {
-    const newValues = this.state.filters.with_genres;
+
+    const newValues = [...this.state.filters.with_genres];
+
     if (event.target.checked) {
       newValues.push(parseInt(event.target.name))
     } else {
@@ -25,6 +31,7 @@ export default class App extends React.Component {
           newValues.splice(index, 1);
       }
     }
+
     this.setState(prevState => ({
       filters: {
         ...prevState.filters,
@@ -52,7 +59,7 @@ export default class App extends React.Component {
   
   onClearFilters = () => {
     this.setState(prevState => ({
-      filters: initialFilters,
+      filters: this.initialFilters,
       page: 1
     }));
   }
