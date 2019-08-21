@@ -12,40 +12,44 @@ export default class MovieList extends Component {
     };
   }
   static propTypes = {
-    filters: PropTypes.object.isRequired
+    filters: PropTypes.object.isRequired,
+    onChangePage: PropTypes.func.isRequired
   };
 
   getMovies = (filters, page) => {
-    let filtersParam = '';
-    let genres = filters.with_genres.join(',');
-    Object.keys(filters).forEach(item => {
-      if (filters[item] && (item !== 'with_genres')) filtersParam += `&${item}=${filters[item]}`
-    })
-    const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&page=${page}${filtersParam}&with_genres=${genres}`;
+    const { with_genres, ...restFilters } = this.props.filters;
+    const filtersParam = Object.keys(restFilters).reduce((acc, item) => {
+      acc += `&${item}=${restFilters[item]}`
+      return acc
+    }, "");
+    const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&page=${page}&${filtersParam}&with_genres=${with_genres.join(',')}`;
+    console.log(link);
     fetch(link)
       .then(response => {
         return response.json();
       })
       .then(data => {
+        this.props.onChangePage(data.page, data.total_pages);
         this.setState({
           movies: data.results
-        });
-      });
+        });        
+      })
   };
 
   componentDidMount() {
-    this.getMovies(this.props.filters, this.props.page);
+    const { filters, page } = this.props;
+    this.getMovies(filters, page);
   }
 
   componentDidUpdate(prevProps) {
-    console.log(prevProps)
-    if (this.props.filters.sort_by !== prevProps.filters.sort_by || this.props.filters.primary_release_year !== prevProps.filters.primary_release_year || this.props.filters.with_genres !== prevProps.filters.with_genres) {
-      this.props.onChangePage(1);
-      this.getMovies(this.props.filters, 1);
+    const { filters : { sort_by, primary_release_year, with_genres }, filters, page, onChangePage } = this.props;
+    if (sort_by !== prevProps.filters.sort_by || primary_release_year !== prevProps.filters.primary_release_year || with_genres !== prevProps.filters.with_genres) {
+      onChangePage(1);
+      this.getMovies(filters, 1);
     }
 
-    if (this.props.page !== prevProps.page) {
-      this.getMovies(this.props.filters, this.props.page);
+    if (page !== prevProps.page) {
+      this.getMovies(filters, page);
     }
   }
 

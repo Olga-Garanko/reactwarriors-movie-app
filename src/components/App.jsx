@@ -6,18 +6,18 @@ export default class App extends React.Component {
   constructor() {
     super();
 
-    this.initialFilters = {
-        sort_by: "popularity.desc",
-        primary_release_year: new Date().getFullYear(),
-        with_genres: []
-    };
-
     this.state = {
       filters: this.initialFilters,
-      page: 1
+      page: 1,
+      total_pages: 0
     };
   }
 
+  initialFilters = {
+      sort_by: "popularity.desc",
+      primary_release_year: new Date().getFullYear(),
+      with_genres: []
+  };
 
   onCheckGenre = event => {
 
@@ -56,12 +56,13 @@ export default class App extends React.Component {
     }));
   };
 
-  onChangePage = page => {
+  onChangePage = (page, total_pages) => {
     this.setState({
-      page
+      page,
+      total_pages
     });
   };
-  
+
   onClearFilters = () => {
     this.setState(prevState => ({
       filters: this.initialFilters,
@@ -70,7 +71,7 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { filters, page } = this.state;
+    const { filters, page, total_pages } = this.state;
     return (
       <div className="container">
         <div className="row mt-4">
@@ -80,6 +81,7 @@ export default class App extends React.Component {
                 <h3>Фильтры:</h3>
                 <Filters
                   page={page}
+                  total_pages={total_pages}
                   filters={filters}
                   onSelect={this.onSelect}
                   onCheckGenre={this.onCheckGenre}

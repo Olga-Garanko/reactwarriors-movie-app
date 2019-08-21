@@ -26,7 +26,6 @@ const Select = props => {
 				value={value}
 				onChange={onSelect}
 			>
-			<option key="0" value="0" disabled>Select {name}</option>
 			{getOptionsItems()}
 			</select>
 		</div>

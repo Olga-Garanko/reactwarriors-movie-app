@@ -1,6 +1,7 @@
 import React from "react";
 import Select from "../Common/Select";
 import Checkbox from "../Common/Checkbox";
+import Pagination from "../Filters/Pagination";
 import { API_URL, API_KEY_3 } from "../../api/api";
 import PropTypes from "prop-types";
 const FiltersOptions = {
@@ -40,7 +41,9 @@ export default class Filters extends React.Component {
     };
   }
   static propTypes = {
-    filters: PropTypes.object.isRequired
+    filters: PropTypes.object.isRequired,
+    page: PropTypes.number.isRequired,
+    total_pages: PropTypes.number.isRequired
   };
 
   getGenres = () => {
@@ -65,6 +68,7 @@ export default class Filters extends React.Component {
     const {
       filters: { sort_by, primary_release_year, with_genres },
       page,
+      total_pages,
       onSelect,
       onCheckGenre,
       onChangePage,
@@ -84,7 +88,7 @@ export default class Filters extends React.Component {
         <Select
           className="form-control"
           id="primary_release_year"
-          label="Сортировка"
+          label="Год"
           name="primary_release_year"
           value={primary_release_year}
           options={FiltersOptions.primary_release_years}
@@ -107,23 +111,7 @@ export default class Filters extends React.Component {
             );
           })}
         </div>
-        <div className="form-group">
-          <button
-            type="button"
-            className="btn btn-light m-r-2"
-            disabled={page === 1}
-            onClick={onChangePage.bind(null, page - 1)}
-          >
-            Назад
-          </button>
-          <button
-            type="button"
-            className="btn btn-light"
-            onClick={onChangePage.bind(null, page + 1)}
-          >
-            Вперед
-          </button>
-        </div>
+        <Pagination page={page} total_pages={total_pages} onChangePage={onChangePage} />
         <div className="form-group">
           <button
             type="button"
