@@ -1,8 +1,7 @@
 import React from "react";
 import Select from "../Common/Select";
-import Checkbox from "../Common/Checkbox";
+import Genres from "../Filters/Genres";
 import Pagination from "../Filters/Pagination";
-import { API_URL, API_KEY_3 } from "../../api/api";
 import PropTypes from "prop-types";
 const FiltersOptions = {
   sort_by: [
@@ -33,38 +32,13 @@ const FiltersOptions = {
   ]
 }
 export default class Filters extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      genres: []
-    };
-  }
   static propTypes = {
     filters: PropTypes.object.isRequired,
     page: PropTypes.number.isRequired,
     total_pages: PropTypes.number.isRequired
   };
 
-  getGenres = () => {
-    const link = `${API_URL}/genre/movie/list?api_key=${API_KEY_3}&language=ru-RU`;
-    fetch(link)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        this.setState({
-          genres: data.genres
-        });
-      });
-  };
-
-  componentDidMount() {
-    this.getGenres();
-  }
-
   render() {
-    const { genres } = this.state;
     const {
       filters: { sort_by, primary_release_year, with_genres },
       page,
@@ -94,24 +68,11 @@ export default class Filters extends React.Component {
           options={FiltersOptions.primary_release_years}
           onSelect={onSelect}
         />
-        <p>Genres</p>
-        <div className="genres">
-          {genres.map(genre => {
-            return (
-              <Checkbox
-                key={genre.id}
-                className="form-check-input"
-                type="checkbox"
-                id={genre.id}
-                label={genre.name}
-                name={genre.id}
-                onCheck={onCheckGenre}
-                checked={with_genres.includes(genre.id)}
-              />
-            );
-          })}
-        </div>
+
+        <Genres with_genres={with_genres} onCheckGenre={onCheckGenre} />
+
         <Pagination page={page} total_pages={total_pages} onChangePage={onChangePage} />
+
         <div className="form-group">
           <button
             type="button"
@@ -120,6 +81,7 @@ export default class Filters extends React.Component {
           >
             Очистить
           </button>
+
         </div>  
       </form>
     );

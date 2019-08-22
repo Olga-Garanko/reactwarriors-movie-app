@@ -16,22 +16,24 @@ export default class Pagination extends React.Component {
     } = this.props;
     return (
         <div className="form-group">
-          <div> {page} from {total_pages} </div>
-          <button
-            type="button"
-            className="btn btn-light m-r-2"
-            disabled={page === 1}
-            onClick={() => onChangePage(page - 1, total_pages)}
-          >
-            Назад
-          </button>
-          <button
-            type="button"
-            className="btn btn-light"
-            onClick={() => onChangePage(page + 1, total_pages)}
-          >
-            Вперед
-          </button>
+          <p>Страница {page} из {total_pages} </p>
+          <div className="d-flex">
+            <button
+              type="button"
+              className="btn btn-light m-r-2"
+              disabled={page === 1}
+              onClick={() => onChangePage(page - 1, total_pages)}
+            >
+              Назад
+            </button>
+            <button
+              type="button"
+              className="btn btn-light"
+              onClick={() => onChangePage(page + 1, total_pages)}
+            >
+              Вперед
+            </button>
+          </div>
         </div>
     );
   }
