@@ -45,7 +45,7 @@ export default class MovieList extends Component {
     const { filters : { sort_by, primary_release_year, with_genres }, filters, page, onChangePage } = this.props;
     if (sort_by !== prevProps.filters.sort_by || primary_release_year !== prevProps.filters.primary_release_year || with_genres !== prevProps.filters.with_genres) {
       this.getMovies(filters, 1);
-      onChangePage(1,0);
+      onChangePage(1);
     }
 
     if (page !== prevProps.page) {

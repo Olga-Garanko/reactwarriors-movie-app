@@ -13,7 +13,7 @@ export default class Genres extends React.Component {
   }
   static propTypes = {
     with_genres: PropTypes.array.isRequired,
-    onCheckGenre: PropTypes.func.isRequired
+    onChangeGenre: PropTypes.func.isRequired
   };
 
   getGenres = () => {
@@ -35,7 +35,7 @@ export default class Genres extends React.Component {
 
   render() {
     const { genres } = this.state;
-    const { with_genres, onCheckGenre } = this.props;
+    const { with_genres, onChangeGenre } = this.props;
     return (
       <div className="form-group">
         <p>Genres</p>
@@ -49,7 +49,7 @@ export default class Genres extends React.Component {
                 id={genre.id}
                 label={genre.name}
                 name={genre.id}
-                onCheck={onCheckGenre}
+                onCheck={onChangeGenre}
                 checked={with_genres.includes(genre.id)}
               />
             );

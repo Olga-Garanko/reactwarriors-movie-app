@@ -19,7 +19,7 @@ export default class App extends React.Component {
       with_genres: []
   };
 
-  onCheckGenre = event => {
+  onChangeGenre = event => {
 
     const name = parseInt(event.target.name),
           checked = event.target.checked;
@@ -45,7 +45,7 @@ export default class App extends React.Component {
     });
   };
 
-  onSelect = event => {
+  onChangeSortBy = event => {
     const value = event.target.value;
     const name = event.target.name;
     this.setState(prevState => ({
@@ -56,7 +56,29 @@ export default class App extends React.Component {
     }));
   };
 
-  onChangePage = (page, total_pages) => {
+  onChangeYear = event => {
+    const value = event.target.value;
+    const name = event.target.name;
+    this.setState(prevState => ({
+      filters: {
+        ...prevState.filters,
+        [name]: Number(value)
+      }
+    }));
+  };
+
+  onChangeYear = event => {
+    const value = event.target.value;
+    const name = event.target.name;
+    this.setState(prevState => ({
+      filters: {
+        ...prevState.filters,
+        [name]: Number(value)
+      }
+    }));
+  };
+
+  onChangePage = (page, total_pages = 0) => {
     this.setState({
       page,
       total_pages
@@ -83,8 +105,9 @@ export default class App extends React.Component {
                   page={page}
                   total_pages={total_pages}
                   filters={filters}
-                  onSelect={this.onSelect}
-                  onCheckGenre={this.onCheckGenre}
+                  onChangeYear={this.onChangeYear}
+                  onChangeSortBy={this.onChangeSortBy}
+                  onChangeGenre={this.onChangeGenre}
                   onChangePage={this.onChangePage}
                   onClearFilters={this.onClearFilters}
                 />
