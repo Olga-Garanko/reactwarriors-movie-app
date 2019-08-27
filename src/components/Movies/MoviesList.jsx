@@ -23,7 +23,6 @@ export default class MovieList extends Component {
       return acc
     }, "");
     const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&page=${page}&${filtersParam}&with_genres=${with_genres.join(',')}`;
-    console.log(link);
     fetch(link)
       .then(response => {
         return response.json();
@@ -42,8 +41,8 @@ export default class MovieList extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { filters : { sort_by, primary_release_year, with_genres }, filters, page, onChangePage } = this.props;
-    if (sort_by !== prevProps.filters.sort_by || primary_release_year !== prevProps.filters.primary_release_year || with_genres !== prevProps.filters.with_genres) {
+    const { filters, page, onChangePage } = this.props;
+    if (filters !== prevProps.filters) {
       this.getMovies(filters, 1);
       onChangePage(1);
     }

@@ -15,65 +15,32 @@ export default class App extends React.Component {
 
   initialFilters = {
       sort_by: "popularity.desc",
-      primary_release_year: new Date().getFullYear(),
-      with_genres: []
+      primary_release_year: new Date().getFullYear().toString(),
+      with_genres: [28]
   };
 
   onChangeGenre = event => {
-
-    const name = parseInt(event.target.name),
-          checked = event.target.checked;
-
-    this.setState(prevState => {
-
-      let newValues = [];
-
-      if (checked) {
-        newValues = [...prevState.filters.with_genres, name]
-      } else {
-        let remove = prevState.filters.with_genres.indexOf(name);
-        newValues = [...prevState.filters.with_genres.filter((_, i) => i !== remove)]
-      }
-
+    const value = parseInt(event.target.value);
+    const checked = event.target.checked;
+    this.setState(state => {
       return {
         filters: {
-        ...prevState.filters,
-        with_genres: newValues
+          ...state.filters,
+          with_genres: checked ?
+            [...state.filters.with_genres, value] :
+            state.filters.with_genres.filter(item => Number(item) !== Number(value))
         }
       }
-      
     });
   };
 
-  onChangeSortBy = event => {
+  onChangeFilters = event => {
     const value = event.target.value;
     const name = event.target.name;
     this.setState(prevState => ({
       filters: {
         ...prevState.filters,
         [name]: value
-      }
-    }));
-  };
-
-  onChangeYear = event => {
-    const value = event.target.value;
-    const name = event.target.name;
-    this.setState(prevState => ({
-      filters: {
-        ...prevState.filters,
-        [name]: Number(value)
-      }
-    }));
-  };
-
-  onChangeYear = event => {
-    const value = event.target.value;
-    const name = event.target.name;
-    this.setState(prevState => ({
-      filters: {
-        ...prevState.filters,
-        [name]: Number(value)
       }
     }));
   };
@@ -86,10 +53,10 @@ export default class App extends React.Component {
   };
 
   onClearFilters = () => {
-    this.setState(prevState => ({
+    this.setState({
       filters: this.initialFilters,
       page: 1
-    }));
+    });
   }
 
   render() {
@@ -105,8 +72,7 @@ export default class App extends React.Component {
                   page={page}
                   total_pages={total_pages}
                   filters={filters}
-                  onChangeYear={this.onChangeYear}
-                  onChangeSortBy={this.onChangeSortBy}
+                  onChangeFilters={this.onChangeFilters}
                   onChangeGenre={this.onChangeGenre}
                   onChangePage={this.onChangePage}
                   onClearFilters={this.onClearFilters}

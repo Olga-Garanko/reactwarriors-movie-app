@@ -49,7 +49,8 @@ export default class Genres extends React.Component {
                 id={genre.id}
                 label={genre.name}
                 name={genre.id}
-                onCheck={onChangeGenre}
+                value={genre.id}
+                onChange={onChangeGenre}
                 checked={with_genres.includes(genre.id)}
               />
             );

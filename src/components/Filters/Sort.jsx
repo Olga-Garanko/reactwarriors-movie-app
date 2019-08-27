@@ -39,7 +39,7 @@ export default class Sort extends React.Component {
           name="sort_by"
           value={sort_by}
           options={sort_opt}
-          onSelect={onChangeSortBy}
+          onChange={onChangeSortBy}
         />
       </div>
     );

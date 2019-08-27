@@ -6,7 +6,7 @@ const Checkbox = props => {
     label,
     name,
     checked,
-    onCheck
+    onChange
   } = props;
   return (
     <div className="form-group">
@@ -16,8 +16,9 @@ const Checkbox = props => {
           type='checkbox'
           className="form-check-input"
           name={name}
+          value={name}
           checked={checked}
-          onChange={onCheck}
+          onChange={onChange}
         />
         <label htmlFor={id} className="form-check-label">{label}</label>
       </div>

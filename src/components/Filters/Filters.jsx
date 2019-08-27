@@ -17,8 +17,7 @@ export default class Filters extends React.Component {
       filters: { sort_by, primary_release_year, with_genres },
       page,
       total_pages,
-      onChangeSortBy,
-      onChangeYear,
+      onChangeFilters,
       onChangeGenre,
       onChangePage,
       onClearFilters
@@ -26,9 +25,9 @@ export default class Filters extends React.Component {
     return (
       <form className="mb-3">
 
-        <Sort sort_by={sort_by} onChangeSortBy={onChangeSortBy} />
+        <Sort sort_by={sort_by} onChangeSortBy={onChangeFilters} />
 
-        <ReleaseYear primary_release_year={primary_release_year} onChangeYear={onChangeYear} />
+        <ReleaseYear primary_release_year={primary_release_year} onChangeYear={onChangeFilters} />
 
         <Genres with_genres={with_genres} onChangeGenre={onChangeGenre} />
 

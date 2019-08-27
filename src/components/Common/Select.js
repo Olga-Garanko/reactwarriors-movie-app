@@ -7,7 +7,7 @@ const Select = props => {
 		name,
 		value,
 		options,
-		onSelect
+		onChange
 	} = props;
 	const getOptionsItems = () => {
 		return options.map((item, i) => (
@@ -24,7 +24,7 @@ const Select = props => {
 				id={id}
 				name={name}
 				value={value}
-				onChange={onSelect}
+				onChange={onChange}
 			>
 			{getOptionsItems()}
 			</select>
