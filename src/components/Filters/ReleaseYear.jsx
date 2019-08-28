@@ -1,6 +1,7 @@
 import React from "react";
 import Select from "../Common/Select";
 import PropTypes from "prop-types";
+
 const primary_release_years = [
   {label: 2014, value: "2014"},
   {label: 2015, value: "2015"},
@@ -13,14 +14,17 @@ const primary_release_years = [
 export default class ReleaseYear extends React.Component {
   static propTypes = {
     primary_release_year: PropTypes.string.isRequired,
-    onChangeYear: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired
+  };
+
+  onChangeYear = event => {
+    const value = event.target.value;
+    const name = event.target.name;
+    this.props.onChange(name, value);
   };
 
   render() {
-    const {
-      primary_release_year,
-      onChangeYear
-    } = this.props;
+    const { primary_release_year } = this.props;
     return (
         <Select
           className="form-control"
@@ -29,7 +33,7 @@ export default class ReleaseYear extends React.Component {
           name="primary_release_year"
           value={primary_release_year}
           options={primary_release_years}
-          onChange={onChangeYear}
+          onChange={this.onChangeYear}
         />
     );
   }

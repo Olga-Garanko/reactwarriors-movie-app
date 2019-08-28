@@ -16,27 +16,10 @@ export default class App extends React.Component {
   initialFilters = {
       sort_by: "popularity.desc",
       primary_release_year: new Date().getFullYear().toString(),
-      with_genres: [28]
+      with_genres: []
   };
 
-  onChangeGenre = event => {
-    const value = parseInt(event.target.value);
-    const checked = event.target.checked;
-    this.setState(state => {
-      return {
-        filters: {
-          ...state.filters,
-          with_genres: checked ?
-            [...state.filters.with_genres, value] :
-            state.filters.with_genres.filter(item => Number(item) !== Number(value))
-        }
-      }
-    });
-  };
-
-  onChangeFilters = event => {
-    const value = event.target.value;
-    const name = event.target.name;
+  onChangeFilters = (name, value) => {
     this.setState(prevState => ({
       filters: {
         ...prevState.filters,
@@ -73,7 +56,6 @@ export default class App extends React.Component {
                   total_pages={total_pages}
                   filters={filters}
                   onChangeFilters={this.onChangeFilters}
-                  onChangeGenre={this.onChangeGenre}
                   onChangePage={this.onChangePage}
                   onClearFilters={this.onClearFilters}
                 />

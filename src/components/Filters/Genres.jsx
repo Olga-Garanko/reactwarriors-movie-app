@@ -11,9 +11,10 @@ export default class Genres extends React.Component {
       genres: []
     };
   }
+  
   static propTypes = {
     with_genres: PropTypes.array.isRequired,
-    onChangeGenre: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired
   };
 
   getGenres = () => {
@@ -33,9 +34,19 @@ export default class Genres extends React.Component {
     this.getGenres();
   }
 
+  onChangeGenre = event => {
+    const { with_genres } = this.props;
+    const value = parseInt(event.target.value);
+    const checked = event.target.checked;
+    const values = checked ?
+            [...with_genres, value] :
+            with_genres.filter(item => Number(item) !== Number(value))
+    this.props.onChange('with_genres', values);
+  };
+
   render() {
     const { genres } = this.state;
-    const { with_genres, onChangeGenre } = this.props;
+    const { with_genres } = this.props;
     return (
       <div className="form-group">
         <p>Genres</p>
@@ -50,7 +61,7 @@ export default class Genres extends React.Component {
                 label={genre.name}
                 name={genre.id}
                 value={genre.id}
-                onChange={onChangeGenre}
+                onChange={this.onChangeGenre}
                 checked={with_genres.includes(genre.id)}
               />
             );
