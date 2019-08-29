@@ -16,7 +16,7 @@ export default class Pagination extends React.Component {
     } = this.props;
     onChange(page - 1, total_pages)
   }
-  
+
   nextPage = () => {
     const {
       page,
@@ -33,7 +33,7 @@ export default class Pagination extends React.Component {
     } = this.props;
     return (
         <div className="form-group">
-          <p>Страница {page} из {total_pages} </p>
+          <p>Страница {page} из {total_pages || ""} </p>
           <div className="d-flex">
             <button
               type="button"
