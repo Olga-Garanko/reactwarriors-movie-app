@@ -8,11 +8,28 @@ export default class Pagination extends React.Component {
     onChange: PropTypes.func.isRequired
   };
 
-  render() {
+  prevPage = () => {
     const {
       page,
       total_pages,
       onChange
+    } = this.props;
+    onChange(page - 1, total_pages)
+  }
+  
+  nextPage = () => {
+    const {
+      page,
+      total_pages,
+      onChange
+    } = this.props;
+    onChange(page + 1, total_pages)
+  }
+
+  render() {
+    const {
+      page,
+      total_pages
     } = this.props;
     return (
         <div className="form-group">
@@ -22,7 +39,7 @@ export default class Pagination extends React.Component {
               type="button"
               className="btn btn-light m-r-2"
               disabled={page === 1}
-              onClick={() => onChange(page - 1, total_pages)}
+              onClick={this.prevPage}
             >
               Назад
             </button>
@@ -30,7 +47,7 @@ export default class Pagination extends React.Component {
               type="button"
               className="btn btn-light"
               disabled={page === total_pages}
-              onClick={() => onChange(page + 1, total_pages)}
+              onClick={this.nextPage}
             >
               Вперед
             </button>

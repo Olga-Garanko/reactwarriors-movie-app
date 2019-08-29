@@ -2,7 +2,7 @@ import React from "react";
 import Select from "../Common/Select";
 import PropTypes from "prop-types";
 
-const sort_opt = [
+const sortOptions = [
   {
     label: "Популярные по убыванию",
     value: "popularity.desc"
@@ -28,9 +28,7 @@ export default class Sort extends React.Component {
   };
 
   onChangeSortBy = event => {
-    const value = event.target.value;
-    const name = event.target.name;
-    this.props.onChange(name, value);
+    this.props.onChange(event);
   };
 
   render() {
@@ -43,7 +41,7 @@ export default class Sort extends React.Component {
           label="Сортировка"
           name="sort_by"
           value={sort_by}
-          options={sort_opt}
+          options={sortOptions}
           onChange={this.onChangeSortBy}
         />
       </div>

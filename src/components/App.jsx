@@ -19,7 +19,9 @@ export default class App extends React.Component {
       with_genres: []
   };
 
-  onChangeFilters = (name, value) => {
+  onChangeFilters = event => {
+    const name = event.target.name;
+    const value = event.target.value;    
     this.setState(prevState => ({
       filters: {
         ...prevState.filters,
@@ -28,7 +30,7 @@ export default class App extends React.Component {
     }));
   };
 
-  onChangePage = (page, total_pages = 0) => {
+  onChangePage = (page, total_pages = this.state.total_pages) => {
     this.setState({
       page,
       total_pages
@@ -38,7 +40,8 @@ export default class App extends React.Component {
   onClearFilters = () => {
     this.setState({
       filters: this.initialFilters,
-      page: 1
+      page: 1,
+      total_pages: 0
     });
   }
 

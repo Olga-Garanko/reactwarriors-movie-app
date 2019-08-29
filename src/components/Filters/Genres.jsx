@@ -41,7 +41,12 @@ export default class Genres extends React.Component {
     const values = checked ?
             [...with_genres, value] :
             with_genres.filter(item => Number(item) !== Number(value))
-    this.props.onChange('with_genres', values);
+    this.props.onChange({
+      target: {
+         name:  'with_genres',
+         value:  values
+      }
+    });
   };
 
   render() {

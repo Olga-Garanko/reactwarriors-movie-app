@@ -18,9 +18,7 @@ export default class ReleaseYear extends React.Component {
   };
 
   onChangeYear = event => {
-    const value = event.target.value;
-    const name = event.target.name;
-    this.props.onChange(name, value);
+    this.props.onChange(event);
   };
 
   render() {
