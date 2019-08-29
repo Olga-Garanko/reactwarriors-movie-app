@@ -17,12 +17,8 @@ export default class ReleaseYear extends React.Component {
     onChange: PropTypes.func.isRequired
   };
 
-  onChangeYear = event => {
-    this.props.onChange(event);
-  };
-
   render() {
-    const { primary_release_year } = this.props;
+    const { primary_release_year, onChange } = this.props;
     return (
         <Select
           className="form-control"
@@ -31,7 +27,7 @@ export default class ReleaseYear extends React.Component {
           name="primary_release_year"
           value={primary_release_year}
           options={primary_release_years}
-          onChange={this.onChangeYear}
+          onChange={onChange}
         />
     );
   }

@@ -27,12 +27,8 @@ export default class Sort extends React.Component {
     onChange: PropTypes.func.isRequired
   };
 
-  onChangeSortBy = event => {
-    this.props.onChange(event);
-  };
-
   render() {
-    const { sort_by } = this.props;
+    const { sort_by, onChange } = this.props;
     return (
       <div className="mb-3">
         <Select
@@ -42,7 +38,7 @@ export default class Sort extends React.Component {
           name="sort_by"
           value={sort_by}
           options={sortOptions}
-          onChange={this.onChangeSortBy}
+          onChange={onChange}
         />
       </div>
     );
