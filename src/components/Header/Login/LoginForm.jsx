@@ -5,6 +5,7 @@ export default class LoginForm extends React.Component {
   state = {
     username: "",
     password: "",
+    repeatPassword: "",
     errors: {},
     submitting: false
   };
@@ -40,6 +41,14 @@ export default class LoginForm extends React.Component {
 
     if (this.state.username === "") {
       errors.username = "Not empty";
+    }
+
+    if (this.state.password === "") {
+      errors.password = "Not empty";
+    }
+
+    if (this.state.repeatPassword !== this.state.password) {
+      errors.repeatPassword = "Passwords is not equal";
     }
 
     return errors;
@@ -123,7 +132,7 @@ export default class LoginForm extends React.Component {
   };
 
   render() {
-    const { username, password, errors, submitting } = this.state;
+    const { username, password, repeatPassword, errors, submitting } = this.state;
     return (
       <div className="form-login-container">
         <form className="form-login">
@@ -156,9 +165,26 @@ export default class LoginForm extends React.Component {
               name="password"
               value={password}
               onChange={this.onChange}
+              onBlur={this.handleBlur}
             />
             {errors.password && (
               <div className="invalid-feedback">{errors.password}</div>
+            )}
+          </div>
+          <div className="form-group">
+            <label htmlFor="repeatPassword">Повторите пароль</label>
+            <input
+              type="password"
+              className="form-control"
+              id="repeatPassword"
+              placeholder="Пароль"
+              name="repeatPassword"
+              value={repeatPassword}
+              onChange={this.onChange}
+              onBlur={this.handleBlur}
+            />
+            {errors.repeatPassword && (
+              <div className="invalid-feedback">{errors.repeatPassword}</div>
             )}
           </div>
           <button
