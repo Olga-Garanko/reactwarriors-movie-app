@@ -4,7 +4,7 @@ import User from "./User";
 
 class Header extends React.Component {
   render() {
-    const { user, updateUser, updateSessionId } = this.props;
+    const { user, session_id, updateSessionId } = this.props;
     return (
       <nav className="navbar navbar-dark bg-primary">
         <div className="container">
@@ -18,7 +18,7 @@ class Header extends React.Component {
           {user ? (
             <User user={user} />
           ) : (
-            <Login updateUser={updateUser} updateSessionId={updateSessionId} />
+            <Login updateSessionId={updateSessionId} />
           )}
         </div>
       </nav>

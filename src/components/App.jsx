@@ -7,6 +7,7 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
+export const AppContext = React.createContext();
 export default class App extends React.Component {
   constructor() {
     super();
@@ -72,10 +73,15 @@ export default class App extends React.Component {
   render() {
     const { filters, page, total_pages, user } = this.state;
     return (
+      <AppContext.Provider
+        value={{
+          user: user,
+          updateUser: this.updateUser
+        }}
+      >
       <div>
         <Header
           user={user}
-          updateUser={this.updateUser}
           updateSessionId={this.updateSessionId}
         />
         <div className="container">
@@ -104,6 +110,7 @@ export default class App extends React.Component {
           </div>
         </div>
       </div>
+    </AppContext.Provider>
     );
   }
 }
