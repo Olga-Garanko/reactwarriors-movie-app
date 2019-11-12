@@ -71,19 +71,18 @@ export default class App extends React.Component {
   }
 
   render() {
-    const { filters, page, total_pages, user } = this.state;
+    const { filters, page, total_pages, user, session_id } = this.state;
     return (
       <AppContext.Provider
         value={{
           user: user,
-          updateUser: this.updateUser
+          updateUser: this.updateUser,
+          session_id: session_id,
+          updateSessionId: this.updateSessionId,
         }}
       >
       <div>
-        <Header
-          user={user}
-          updateSessionId={this.updateSessionId}
-        />
+        <Header />
         <div className="container">
           <div className="row mt-4">
             <div className="col-4">

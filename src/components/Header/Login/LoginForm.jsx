@@ -209,7 +209,7 @@ export default props => {
   console.log(props);
   return (
     <AppContext.Consumer>
-      {context => <LoginForm updateUser={context.updateUser} {...props} />}
+      {context => <LoginForm updateUser={context.updateUser}  updateSessionId={context.updateSessionId} {...props} />}
     </AppContext.Consumer>
   );
 };
