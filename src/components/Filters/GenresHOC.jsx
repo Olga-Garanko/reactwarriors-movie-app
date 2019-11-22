@@ -1,5 +1,4 @@
 import React from "react";
-import Genres from "./Genres";
 import { API_KEY_3, API_URL } from "../../api/api";
 
 export default (Component) => class GenresHOC extends React.Component {
