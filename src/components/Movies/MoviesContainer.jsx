@@ -16,7 +16,6 @@ export default class MoviesContainer extends React.Component {
   getMovies = (filters, page) => {
     const { sort_by, primary_release_year, with_genres } = filters;
     const queryStringParams = {
-      api_key: API_KEY_3,
       language: "ru-RU",
       sort_by: sort_by,
       page: page,
@@ -26,10 +25,9 @@ export default class MoviesContainer extends React.Component {
     if (with_genres.length > 0)
       queryStringParams.with_genres = with_genres.join(",");
 
-    const link = `${API_URL}/discover/movie?${queryString.stringify(
-      queryStringParams
-    )}`;
-    fetch(link)
+      CallApi.get("/discover/movie", {
+        params: queryStringParams
+      })
       .then(response => {
         return response.json();
       })
