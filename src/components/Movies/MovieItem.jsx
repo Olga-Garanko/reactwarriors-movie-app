@@ -1,4 +1,8 @@
 import React from "react";
+import StarIcon from '@material-ui/icons/Star';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
+import BookmarkIcon from '@material-ui/icons/Bookmark';
+import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 
 export default class MovieItem extends React.Component {
   render() {
@@ -14,6 +18,8 @@ export default class MovieItem extends React.Component {
         <div className="card-body">
           <h6 className="card-title">{item.title}</h6>
           <div className="card-text">Рейтинг: {item.vote_average}</div>
+          <StarIcon />
+          <BookmarkIcon />
         </div>
       </div>
     );
