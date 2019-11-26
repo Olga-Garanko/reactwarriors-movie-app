@@ -1,8 +1,9 @@
 import React from "react";
 import { Modal, ModalBody } from "reactstrap";
 import LoginForm from "./LoginForm";
+import { AppContext } from "../../App";
 
-export default class Login extends React.Component {
+class Login extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -15,6 +16,13 @@ export default class Login extends React.Component {
       showModal: !prevState.showModal
     }));
   };
+
+  componentDidMount() {
+    const { session_id } = this.props;
+    this.setState({
+      showModal: !session_id
+    });
+  }
 
   render() {
     return (
@@ -35,3 +43,17 @@ export default class Login extends React.Component {
     );
   }
 }
+
+const LoginContainer = props => {
+  return (
+    <AppContext.Consumer>
+      {context => {
+        return <Login session_id={context.session_id} {...props} />;
+      }}
+    </AppContext.Consumer>
+  );
+};
+
+LoginContainer.displayName = "LoginContainer";
+
+export default LoginContainer;

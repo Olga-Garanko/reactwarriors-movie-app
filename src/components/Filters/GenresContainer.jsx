@@ -1,6 +1,6 @@
 import React from "react";
 import Genres from "./Genres";
-import { API_KEY_3, API_URL } from "../../api/api";
+import CallApi from "../../api/api";
 
 class GenresContainer extends React.Component {
   constructor() {
@@ -12,16 +12,15 @@ class GenresContainer extends React.Component {
   }
 
   componentDidMount() {
-    const link = `${API_URL}/genre/movie/list?api_key=${API_KEY_3}&language=ru-RU`;
-    fetch(link)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        this.setState({
-          genresList: data.genres
+       CallApi.get('/genre/movie/list')
+        .then(response => {
+          return response;
+        })
+        .then(data => {
+          this.setState({
+            genresList: data.genres
+          });
         });
-      });
   }
 
   onChangeGenres = event => {

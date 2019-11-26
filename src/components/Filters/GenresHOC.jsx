@@ -1,5 +1,5 @@
 import React from "react";
-import { API_KEY_3, API_URL } from "../../api/api";
+import CallApi from "../../api/api";
 
 export default (Component) => class GenresHOC extends React.Component {
   constructor() {
@@ -11,16 +11,16 @@ export default (Component) => class GenresHOC extends React.Component {
   }
 
   componentDidMount() {
-    const link = `${API_URL}/genre/movie/list?api_key=${API_KEY_3}&language=ru-RU`;
-    fetch(link)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        this.setState({
-          genresList: data.genres
-        });
+     CallApi.get("/genre/movie/list", {
+      params: {
+        language: "ru-RU"
+      }
+    })
+    .then(data => {
+      this.setState({
+        genresList: data.genres
       });
+    });
   }
 
   onChangeGenres = event => {

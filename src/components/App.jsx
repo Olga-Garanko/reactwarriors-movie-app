@@ -17,7 +17,7 @@ export default class App extends React.Component {
       session_id: null,
       filters: {
         sort_by: "popularity.desc",
-        primary_release_year: "2018",
+        primary_release_year: new Date().getFullYear(),
         with_genres: []
       },
       page: 1,
