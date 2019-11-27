@@ -15,9 +15,11 @@ export default class App extends React.Component {
     this.state = {
       user: null,
       session_id: null,
+      favorites: [],
+      watchlist: [],
       filters: {
         sort_by: "popularity.desc",
-        primary_release_year: new Date().getFullYear(),
+        primary_release_year: String(new Date().getFullYear()),
         with_genres: []
       },
       page: 1,
@@ -76,13 +78,49 @@ export default class App extends React.Component {
         }
       })
       .then(user => {
+        console.log('user', user)
         this.updateUser(user);
-      });
+        return user
+      })
+      .then(user => {
+        console.log('user 2', user);
+        CallApi.get(`/account/${user.id}/favorite/movies`, {
+          params: {
+            language: 'ru-RU',
+            session_id: session_id,
+            sort_by: this.state.filters.sort_by,
+            page: this.state.page
+          }
+        })
+        .then(favorites => {
+          this.setState({
+            favorites
+          });
+        })
+        return user
+      })
+      .then(user => {
+        console.log('user 4', user);
+        CallApi.get(`/account/${user.id}/watchlist/movies`, {
+          params: {
+            language: 'ru-RU',
+            session_id: session_id,
+            sort_by: this.state.filters.sort_by,
+            page: this.state.page
+          }
+        })
+        .then(favorites => {
+          this.setState({
+            watchlist: this.state.watchlist
+          });
+          console.log(this.state.watchlist);
+        })
+      })
     }
   }
 
   render() {
-    const { filters, page, total_pages, user, session_id } = this.state;
+    const { filters, page, total_pages, user, session_id, favorites, watchlist } = this.state;
     return (
       <AppContext.Provider
         value={{
@@ -116,6 +154,8 @@ export default class App extends React.Component {
                 filters={filters}
                 page={page}
                 onChangePagination={this.onChangePagination}
+                favorites={favorites.map(item => item.id)}
+                watchlist={watchlist.map(item => item.id)}
               />
             </div>
           </div>
