@@ -84,12 +84,9 @@ export default class App extends React.Component {
       })
       .then(user => {
         console.log('user 2', user);
-        CallApi.get(`/account/${user.id}/favorite/movies`, {
+        CallApi.get(`/account/favorite/movies`, {
           params: {
-            language: 'ru-RU',
-            session_id: session_id,
-            sort_by: this.state.filters.sort_by,
-            page: this.state.page
+            session_id: session_id
           }
         })
         .then(favorites => {
@@ -100,20 +97,15 @@ export default class App extends React.Component {
         return user
       })
       .then(user => {
-        console.log('user 4', user);
-        CallApi.get(`/account/${user.id}/watchlist/movies`, {
+        CallApi.get(`/account/watchlist/movies`, {
           params: {
-            language: 'ru-RU',
-            session_id: session_id,
-            sort_by: this.state.filters.sort_by,
-            page: this.state.page
+            session_id: session_id
           }
         })
-        .then(favorites => {
+        .then(watchlist => {
           this.setState({
-            watchlist: this.state.watchlist
+            watchlist
           });
-          console.log(this.state.watchlist);
         })
       })
     }
