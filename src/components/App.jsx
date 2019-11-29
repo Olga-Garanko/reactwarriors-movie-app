@@ -78,33 +78,32 @@ export default class App extends React.Component {
         }
       })
       .then(user => {
-        console.log('user', user)
         this.updateUser(user);
         return user
       })
       .then(user => {
         console.log('user 2', user);
-        CallApi.get(`/account/favorite/movies`, {
+        CallApi.get(`/account/${session_id}/favorite/movies`, {
           params: {
             session_id: session_id
           }
         })
         .then(favorites => {
           this.setState({
-            favorites
+            favorites: favorites.results
           });
         })
         return user
       })
       .then(user => {
-        CallApi.get(`/account/watchlist/movies`, {
+        CallApi.get(`/account/${session_id}/watchlist/movies`, {
           params: {
             session_id: session_id
           }
         })
         .then(watchlist => {
           this.setState({
-            watchlist
+            watchlist: watchlist.results
           });
         })
       })

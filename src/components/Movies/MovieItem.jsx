@@ -12,29 +12,61 @@ export default class MovieItem extends React.Component {
   constructor() {
     super();
     this.state = {
+      favorites: false,
+      watchlist: false
     };
   }
-  onClick(id) {
+
+  componentDidMount() {
+    this.setState({
+      favorites: this.props.favorites,
+      watchlist: this.props.watchlist
+    });
+  }
+
+  changeFavorite = () => {
     const session_id = cookies.get("session_id");
+    console.log('changeFavorite')
     if (session_id) {
-      CallApi.get("/account/favorite", {
+      CallApi.post(`/account/${session_id}/favorite`, {
         params: {
           session_id: session_id
         },
         body: {
           media_type: 'movie',
           media_id: this.props.item.id,
-          favorite: !this.props.favorites
+          favorite: !this.state.favorites
         }
       })
       .then(user => {
-        console.log('user', user)
+        this.setState(state => ({ favorites: !state.favorites }));
+      })
+    }
+  }
+
+  changeWatchlist = () => {
+    const session_id = cookies.get("session_id");
+    console.log('changeWatchlist')
+    if (session_id) {
+      CallApi.post(`/account/${session_id}/watchlist`, {
+        params: {
+          session_id: session_id
+        },
+        body: {
+          media_type: 'movie',
+          media_id: this.props.item.id,
+          watchlist: !this.state.watchlist
+        }
+      })
+      .then(user => {
+        this.setState(state => ({ watchlist: !state.watchlist }));
       })
     }
   }
 
   render() {
-    const { item, favorites, watchlist } = this.props;
+    const { item } = this.props;
+    const { favorites, watchlist } = this.state;
     return (
       <div className="card" style={{ width: "100%" }}>
         <img
@@ -46,8 +78,8 @@ export default class MovieItem extends React.Component {
         <div className="card-body">
           <h6 className="card-title">{item.title}</h6>
           <div className="card-text">Рейтинг: {item.vote_average}</div>
-          { favorites ? <StarIcon onClick={this.onClick(item.id)} /> : <StarBorderIcon onclick={this.onClick(item.id)} /> }
-          { watchlist ? <BookmarkIcon onClick={this.onClick(item.id)} /> : <BookmarkBorderIcon onclick={this.onClick(item.id)} /> }
+          { favorites ? <StarIcon onClick={this.changeFavorite} /> : <StarBorderIcon onClick={this.changeFavorite} /> }
+          { watchlist ? <BookmarkIcon onClick={this.changeWatchlist} /> : <BookmarkBorderIcon onClick={this.changeWatchlist} /> }
         </div>
       </div>
     )
