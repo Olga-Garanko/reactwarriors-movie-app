@@ -1,7 +1,7 @@
 import React from "react";
 import MovieItem from "./MovieItem";
 import PropTypes from "prop-types";
-import MoviesHOC from "./MoviesHOC"
+import MoviesHOC from "./MoviesHOC";
 
 const MoviesList = ({ movies, favorites, watchlist }) => (
   <div className="row">

@@ -8,6 +8,7 @@ import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 export const AppContext = React.createContext();
+export const LoginContext = React.createContext();
 export default class App extends React.Component {
   constructor() {
     super();
@@ -17,6 +18,7 @@ export default class App extends React.Component {
       session_id: null,
       favorites: [],
       watchlist: [],
+      showModal: false,
       filters: {
         sort_by: "popularity.desc",
         primary_release_year: String(new Date().getFullYear()),
@@ -110,8 +112,14 @@ export default class App extends React.Component {
     }
   }
 
+  toggleModal = () => {
+    this.setState(prevState => ({
+      showModal: !prevState.showModal
+    }));
+  };
+
   render() {
-    const { filters, page, total_pages, user, session_id, favorites, watchlist } = this.state;
+    const { filters, page, total_pages, user, session_id, favorites, watchlist, showModal } = this.state;
     return (
       <AppContext.Provider
         value={{
@@ -120,6 +128,12 @@ export default class App extends React.Component {
           session_id: session_id,
           updateSessionId: this.updateSessionId,
           onLogOut: this.onLogOut
+        }}
+      >
+      <LoginContext.Provider
+        value={{
+          showModal: showModal,
+          toggleModal: this.toggleModal
         }}
       >
       <div>
@@ -141,17 +155,20 @@ export default class App extends React.Component {
               </div>
             </div>
             <div className="col-8">
-              <MoviesList
-                filters={filters}
-                page={page}
-                onChangePagination={this.onChangePagination}
-                favorites={favorites.map(item => item.id)}
-                watchlist={watchlist.map(item => item.id)}
-              />
+
+                <MoviesList
+                  filters={filters}
+                  page={page}
+                  onChangePagination={this.onChangePagination}
+                  favorites={favorites.map(item => item.id)}
+                  watchlist={watchlist.map(item => item.id)}
+                />
+
             </div>
           </div>
         </div>
       </div>
+      </LoginContext.Provider>
     </AppContext.Provider>
     );
   }

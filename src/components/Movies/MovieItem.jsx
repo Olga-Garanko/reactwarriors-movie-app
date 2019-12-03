@@ -5,6 +5,7 @@ import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import CallApi from "../../api/api";
 import { AppContext } from "../App";
+import { LoginContext } from "../App";
 
 class MovieItem extends React.Component {
   constructor() {
@@ -23,7 +24,7 @@ class MovieItem extends React.Component {
   }
 
   changeFavorite = () => {
-    const { session_id } = this.props;
+    const { session_id, toggleModal } = this.props;
     if (session_id) {
       CallApi.post(`/account/${session_id}/favorite`, {
         params: {
@@ -38,11 +39,11 @@ class MovieItem extends React.Component {
       .then(user => {
         this.setState(state => ({ favorites: !state.favorites }));
       })
-    }
+    } else toggleModal()
   }
 
   changeWatchlist = () => {
-    const { session_id } = this.props;
+    const { session_id, toggleModal } = this.props;
     if (session_id) {
       CallApi.post(`/account/${session_id}/watchlist`, {
         params: {
@@ -57,11 +58,11 @@ class MovieItem extends React.Component {
       .then(user => {
         this.setState(state => ({ watchlist: !state.watchlist }));
       })
-    }
+    } else toggleModal()
   }
 
   render() {
-    const { item, session_id } = this.props;
+    const { item } = this.props;
     const { favorites, watchlist } = this.state;
     return (
       <div className="card" style={{ width: "100%" }}>
@@ -74,8 +75,8 @@ class MovieItem extends React.Component {
         <div className="card-body">
           <h6 className="card-title">{item.title}</h6>
           <div className="card-text">Рейтинг: {item.vote_average}</div>
-            {session_id ? favorites ? <StarIcon onClick={this.changeFavorite} /> : <StarBorderIcon onClick={this.changeFavorite} /> : null}
-            {session_id ? watchlist ? <BookmarkIcon onClick={this.changeWatchlist} /> : <BookmarkBorderIcon onClick={this.changeWatchlist} /> : null}
+            {favorites ? <StarIcon onClick={this.changeFavorite} /> : <StarBorderIcon onClick={this.changeFavorite} />}
+            {watchlist ? <BookmarkIcon onClick={this.changeWatchlist} /> : <BookmarkBorderIcon onClick={this.changeWatchlist} />}
         </div>
       </div>
     )
@@ -85,9 +86,16 @@ class MovieItem extends React.Component {
 const MovieItemContainer = props => {
   return (
     <AppContext.Consumer>
-      {context => {
-        return <MovieItem session_id={context.session_id} {...props} />;
-      }}
+      {context => (
+        <LoginContext.Consumer>
+          {popup => (
+            <MovieItem session_id={context.session_id}  toggleModal={popup.toggleModal} {...props} />
+          )}
+        </LoginContext.Consumer>  
+        )
+      
+      }
+
     </AppContext.Consumer>
   );
 };

@@ -1,40 +1,25 @@
 import React from "react";
 import { Modal, ModalBody } from "reactstrap";
 import LoginForm from "./LoginForm";
-import { AppContext } from "../../App";
+import { LoginContext } from "../../App";
 
 class Login extends React.Component {
   constructor() {
     super();
-    this.state = {
-      showModal: false
-    };
-  }
-
-  toggleModal = () => {
-    this.setState(prevState => ({
-      showModal: !prevState.showModal
-    }));
-  };
-
-  componentDidMount() {
-    const { session_id } = this.props;
-    this.setState({
-      showModal: !session_id
-    });
   }
 
   render() {
+    const { showModal, toggleModal } = this.props;
     return (
       <div>
         <button
           className="btn btn-success"
           type="button"
-          onClick={this.toggleModal}
+          onClick={toggleModal}
         >
           Login
         </button>
-        <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
+        <Modal isOpen={showModal} toggle={toggleModal}>
           <ModalBody>
             <LoginForm />
           </ModalBody>
@@ -46,11 +31,11 @@ class Login extends React.Component {
 
 const LoginContainer = props => {
   return (
-    <AppContext.Consumer>
+    <LoginContext.Consumer>
       {context => {
-        return <Login session_id={context.session_id} {...props} />;
+        return <Login showModal={context.showModal}  toggleModal={context.toggleModal} {...props} />;
       }}
-    </AppContext.Consumer>
+    </LoginContext.Consumer>
   );
 };
 
