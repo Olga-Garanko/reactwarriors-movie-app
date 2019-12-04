@@ -15,7 +15,7 @@ export default class App extends React.Component {
 
     this.state = {
       user: null,
-      session_id: null,
+      session_id: cookies.get("session_id"),
       favorites: [],
       watchlist: [],
       showModal: false,
@@ -49,7 +49,9 @@ export default class App extends React.Component {
     cookies.remove("session_id");
     this.setState({
       session_id: null,
-      user: null
+      user: null,
+      favorites: [],
+      watchlist: [],
     });
   };
 
