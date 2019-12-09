@@ -62,7 +62,7 @@ class MovieItem extends React.Component {
   }
 
   render() {
-    const { item } = this.props;
+    const { item, session_id } = this.props;
     const { favorites, watchlist } = this.state;
     return (
       <div className="card" style={{ width: "100%" }}>
@@ -75,8 +75,8 @@ class MovieItem extends React.Component {
         <div className="card-body">
           <h6 className="card-title">{item.title}</h6>
           <div className="card-text">Рейтинг: {item.vote_average}</div>
-            {favorites ? <StarIcon onClick={this.changeFavorite} /> : <StarBorderIcon onClick={this.changeFavorite} />}
-            {watchlist ? <BookmarkIcon onClick={this.changeWatchlist} /> : <BookmarkBorderIcon onClick={this.changeWatchlist} />}
+            {session_id && favorites ? <StarIcon onClick={this.changeFavorite} /> : <StarBorderIcon onClick={this.changeFavorite} />}
+            {session_id && watchlist ? <BookmarkIcon onClick={this.changeWatchlist} /> : <BookmarkBorderIcon onClick={this.changeWatchlist} />}
         </div>
       </div>
     )
