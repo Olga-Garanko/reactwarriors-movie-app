@@ -8,7 +8,6 @@ import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 export const AppContext = React.createContext();
-export const LoginContext = React.createContext();
 export default class App extends React.Component {
   constructor() {
     super();
@@ -96,10 +95,7 @@ export default class App extends React.Component {
           this.setState({
             favorites: favorites.results
           });
-        })
-        return user
-      })
-      .then(user => {
+        });
         CallApi.get(`/account/${session_id}/watchlist/movies`, {
           params: {
             session_id: session_id
@@ -109,7 +105,7 @@ export default class App extends React.Component {
           this.setState({
             watchlist: watchlist.results
           });
-        })
+        });
       })
     }
   }
@@ -129,13 +125,9 @@ export default class App extends React.Component {
           updateUser: this.updateUser,
           session_id: session_id,
           updateSessionId: this.updateSessionId,
-          onLogOut: this.onLogOut
-        }}
-      >
-      <LoginContext.Provider
-        value={{
+          onLogOut: this.onLogOut,
           showModal: showModal,
-          toggleModal: this.toggleModal
+          toggleModal: this.toggleModal          
         }}
       >
       <div>
@@ -170,7 +162,6 @@ export default class App extends React.Component {
           </div>
         </div>
       </div>
-      </LoginContext.Provider>
     </AppContext.Provider>
     );
   }

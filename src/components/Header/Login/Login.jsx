@@ -1,13 +1,9 @@
 import React from "react";
 import { Modal, ModalBody } from "reactstrap";
 import LoginForm from "./LoginForm";
-import { LoginContext } from "../../App";
+import { AppContext } from "../../App";
 
 class Login extends React.Component {
-  constructor() {
-    super();
-  }
-
   render() {
     const { showModal, toggleModal } = this.props;
     return (
@@ -31,11 +27,11 @@ class Login extends React.Component {
 
 const LoginContainer = props => {
   return (
-    <LoginContext.Consumer>
+    <AppContext.Consumer>
       {context => {
         return <Login showModal={context.showModal}  toggleModal={context.toggleModal} {...props} />;
       }}
-    </LoginContext.Consumer>
+    </AppContext.Consumer>
   );
 };
 

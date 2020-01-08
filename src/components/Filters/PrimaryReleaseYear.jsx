@@ -11,6 +11,10 @@ export default class PrimaryReleaseYear extends React.PureComponent {
   static defaultProps = {
     options: [
       {
+        label: "2020",
+        value: "2020"
+      },
+      {
         label: "2019",
         value: "2019"
       },
