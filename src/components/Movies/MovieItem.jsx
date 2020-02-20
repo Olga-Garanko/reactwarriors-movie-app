@@ -4,7 +4,7 @@ import MovieWatchlist from "./MovieWatchlist";
 
 class MovieItem extends React.Component {
   render() {
-    const { item, favorites, watchlist } = this.props;
+    const { item } = this.props;
     return (
       <div className="card" style={{ width: "100%" }}>
         <img
@@ -16,8 +16,8 @@ class MovieItem extends React.Component {
         <div className="card-body">
           <h6 className="card-title">{item.title}</h6>
           <div className="card-text">Рейтинг: {item.vote_average}</div>
-            <MovieFavorite id={item.id} favorites={favorites} />
-            <MovieWatchlist id={item.id} watchlist={watchlist} />
+            <MovieFavorite id={item.id} />
+            <MovieWatchlist id={item.id} />
         </div>
       </div>
     )

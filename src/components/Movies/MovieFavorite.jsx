@@ -6,50 +6,58 @@ import PropTypes from "prop-types";
 import AppContextHOC from "../HOC/AppContextHOC";
 
 class MovieFavorite extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      favorites: props.favorites.find(i => i.id === props.id)
-    };
+  
+  state = {
+    submitting: false
+  };
+
+  getFavorite = () => {
+    const { id, favorites } = this.props;
+    return favorites.find(i => i.id === id)
   }
 
   changeFavorite = () => {
-    const { session_id, toggleModal } = this.props;
-    if (session_id) {
-      CallApi.post(`/account/${session_id}/favorite`, {
+    const { session_id, toggleModal, id, getFavorites, user } = this.props;
+    const { submitting } = this.state;
+    if (!submitting && session_id) {
+      this.setState({
+        submitting: true
+      });
+      CallApi.post(`/account/${user.id}/favorite`, {
         params: {
           session_id: session_id
         },
         body: {
           media_type: 'movie',
-          media_id: this.props.id,
-          favorite: !this.state.favorites
+          media_id: id,
+          favorite: !this.getFavorite()
         }
       })
-      .then(user => {
-        this.setState(state => ({ favorites: !state.favorites }));
+      .then(() => {
+        getFavorites();
+        this.setState({
+          submitting: false
+        });
       })
     } else toggleModal()
   }
 
   render() {
     const { session_id } = this.props;
-    const { favorites } = this.state;
     return (
       <span>
-      { session_id && favorites ? <StarIcon onClick={this.changeFavorite} /> : <StarBorderIcon onClick={this.changeFavorite} /> }
+      { session_id && this.getFavorite() ? <StarIcon onClick={this.changeFavorite} /> : <StarBorderIcon onClick={this.changeFavorite} /> }
       </span>
     )
   }
 }
 
 MovieFavorite.defaultProps = {
-  id: null,
   favorites: []
 };
 
 MovieFavorite.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.number,
   favorites: PropTypes.array
 };
 

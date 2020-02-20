@@ -35,12 +35,12 @@ export default class App extends React.Component {
   };
 
   updateSessionId = session_id => {
+    this.setState({
+      session_id
+    });    
     cookies.set("session_id", session_id, {
       path: "/",
       maxAge: 2592000
-    });
-    this.setState({
-      session_id
     });
   };
 
@@ -72,6 +72,32 @@ export default class App extends React.Component {
     });
   };
 
+  getFavorites = () => {
+    CallApi.get(`/account/${this.state.user.id}/favorite/movies`, {
+      params: {
+        session_id: this.state.session_id
+      }
+    })
+    .then(favorites => {
+      this.setState({
+        favorites: favorites.results
+      });
+    });
+  }
+
+  getWatchlist = () => {
+    CallApi.get(`/account/${this.state.user.id}/watchlist/movies`, {
+      params: {
+        session_id: this.state.session_id
+      }
+    })
+    .then(watchlist => {
+      this.setState({
+        watchlist: watchlist.results
+      });
+    });
+  }
+
   componentDidMount() {
     const session_id = cookies.get("session_id");
     if (session_id) {
@@ -82,31 +108,11 @@ export default class App extends React.Component {
       })
       .then(user => {
         this.updateUser(user);
+        this.getFavorites();
+        this.getWatchlist();        
         return user
-      })
-      .then(user => {
-        console.log('user 2', user);
-        CallApi.get(`/account/${session_id}/favorite/movies`, {
-          params: {
-            session_id: session_id
-          }
-        })
-        .then(favorites => {
-          this.setState({
-            favorites: favorites.results
-          });
-        });
-        CallApi.get(`/account/${session_id}/watchlist/movies`, {
-          params: {
-            session_id: session_id
-          }
-        })
-        .then(watchlist => {
-          this.setState({
-            watchlist: watchlist.results
-          });
-        });
-      })
+      });
+
     }
   }
 
@@ -121,13 +127,18 @@ export default class App extends React.Component {
     return (
       <AppContext.Provider
         value={{
-          user: user,
+          user,
           updateUser: this.updateUser,
-          session_id: session_id,
+          session_id,
           updateSessionId: this.updateSessionId,
           onLogOut: this.onLogOut,
-          showModal: showModal,
-          toggleModal: this.toggleModal          
+          showModal,
+          toggleModal: this.toggleModal,
+          favorites,
+          watchlist,
+          getFavorites: this.getFavorites,
+          getWatchlist: this.getWatchlist
+
         }}
       >
       <div>
@@ -154,8 +165,6 @@ export default class App extends React.Component {
                   filters={filters}
                   page={page}
                   onChangePagination={this.onChangePagination}
-                  favorites={favorites.map(item => item.id)}
-                  watchlist={watchlist.map(item => item.id)}
                 />
 
             </div>
