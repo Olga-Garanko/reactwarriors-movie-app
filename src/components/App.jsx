@@ -72,10 +72,10 @@ export default class App extends React.Component {
     });
   };
 
-  getFavorites = () => {
-    CallApi.get(`/account/${this.state.user.id}/favorite/movies`, {
+  getFavorites = ({user, session_id}) => {
+    CallApi.get(`/account/${user.id}/favorite/movies`, {
       params: {
-        session_id: this.state.session_id
+        session_id
       }
     })
     .then(favorites => {
@@ -85,10 +85,10 @@ export default class App extends React.Component {
     });
   }
 
-  getWatchlist = () => {
-    CallApi.get(`/account/${this.state.user.id}/watchlist/movies`, {
+  getWatchlist = ({user, session_id}) => {
+    CallApi.get(`/account/${user.id}/watchlist/movies`, {
       params: {
-        session_id: this.state.session_id
+        session_id
       }
     })
     .then(watchlist => {
@@ -108,9 +108,9 @@ export default class App extends React.Component {
       })
       .then(user => {
         this.updateUser(user);
-        this.getFavorites();
-        this.getWatchlist();        
-        return user
+        this.updateSessionId(session_id);
+        this.getFavorites({user, session_id});
+        this.getWatchlist({user, session_id});
       });
 
     }

@@ -11,15 +11,14 @@ class MovieFavorite extends React.Component {
     submitting: false
   };
 
-  getFavorite = () => {
+  isFavorite = () => {
     const { id, favorites } = this.props;
-    return favorites.find(i => i.id === id)
+    return favorites.findIndex(item => item.id === id) !== -1;
   }
 
   changeFavorite = () => {
     const { session_id, toggleModal, id, getFavorites, user } = this.props;
-    const { submitting } = this.state;
-    if (!submitting && session_id) {
+    if (session_id) {
       this.setState({
         submitting: true
       });
@@ -30,23 +29,26 @@ class MovieFavorite extends React.Component {
         body: {
           media_type: 'movie',
           media_id: id,
-          favorite: !this.getFavorite()
+          favorite: !this.isFavorite()
         }
       })
       .then(() => {
-        getFavorites();
-        this.setState({
-          submitting: false
-        });
+        getFavorites({user, session_id})
       })
+      .then(() => {
+          this.setState({
+            submitting: false
+          });
+        });
     } else toggleModal()
   }
 
   render() {
     const { session_id } = this.props;
+    const { submitting } = this.state;
     return (
       <span>
-      { session_id && this.getFavorite() ? <StarIcon onClick={this.changeFavorite} /> : <StarBorderIcon onClick={this.changeFavorite} /> }
+      { session_id && this.isFavorite() ? <StarIcon onClick={this.changeFavorite} /> : <StarBorderIcon onClick={this.changeFavorite} /> }
       </span>
     )
   }

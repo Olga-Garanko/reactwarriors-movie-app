@@ -11,15 +11,14 @@ class MovieWatchlist extends React.Component {
     submitting: false
   };
 
-  getWatchlist = () => {
+  isWatchlist = () => {
     const { id, watchlist } = this.props;
-    return watchlist.find(i => i.id === id)
+    return watchlist.findIndex(item => item.id === id) !== -1;
   }
 
   changeWatchlist = () => {
     const { session_id, toggleModal, id, getWatchlist, user } = this.props;
-    const { submitting } = this.state;
-    if (!submitting && session_id) {
+    if (session_id) {
       this.setState({
         submitting: true
       });
@@ -30,23 +29,26 @@ class MovieWatchlist extends React.Component {
         body: {
           media_type: 'movie',
           media_id: id,
-          watchlist: !this.getWatchlist()
+          watchlist: !this.isWatchlist()
         }
       })
       .then(() => {
-        getWatchlist();
-        this.setState({
-          submitting: false
-        });
+        getWatchlist({user, session_id})
       })
+      .then(() => {
+          this.setState({
+            submitting: false
+          });
+        })
     } else toggleModal()
   }
 
   render() {
     const { session_id } = this.props;
+    const { submitting } = this.state;
     return (
       <span>
-      { session_id && this.getWatchlist() ? <BookmarkIcon onClick={this.changeWatchlist} /> : <BookmarkBorderIcon onClick={this.changeWatchlist} /> }
+      { session_id && this.isWatchlist() ? <BookmarkIcon onClick={this.changeWatchlist} /> : <BookmarkBorderIcon onClick={this.changeWatchlist} /> }
       </span>
     )
   }
