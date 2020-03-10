@@ -15,9 +15,9 @@ export default (Component) => class MoviesHOC extends React.Component {
     const { sort_by, primary_release_year, with_genres } = filters;
     const queryStringParams = {
       language: "ru-RU",
-      sort_by: sort_by,
-      page: page,
-      primary_release_year: primary_release_year
+      sort_by,
+      page,
+      primary_release_year
     };
 
     if (with_genres.length > 0)
