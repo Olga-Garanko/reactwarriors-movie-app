@@ -1,13 +1,11 @@
 import React from "react";
-import Filters from "./Filters/Filters";
-import MoviesList from "./Movies/MoviesList";
 import MoviesPage from "./pages/MoviesPage/MoviesPage";
 import MoviePage from "./pages/MoviePage/MoviePage";
 import Header from "./Header/Header";
 import CallApi from "../api/api";
 import Cookies from "universal-cookie";
 
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 
 const cookies = new Cookies();
 
@@ -19,8 +17,9 @@ export default class App extends React.Component {
     this.state = {
       user: null,
       session_id: cookies.get("session_id"),
-      favorites: [],
+      rated: [],
       watchlist: [],
+      favorite: [],
       showModal: false,
     };
   }
@@ -46,20 +45,21 @@ export default class App extends React.Component {
     this.setState({
       session_id: null,
       user: null,
-      favorites: [],
+      rated: [],
       watchlist: [],
+      favorite: [],
     });
   };
 
-  getFavorites = ({user, session_id}) => {
-    CallApi.get(`/account/${user.id}/favorite/movies`, {
+  getRated = ({user, session_id}) => {
+    CallApi.get(`/account/${user.id}/rated/movies`, {
       params: {
         session_id
       }
     })
-    .then(favorites => {
+    .then(rated => {
       this.setState({
-        favorites: favorites.results
+        rated: rated.results
       });
     });
   }
@@ -77,6 +77,19 @@ export default class App extends React.Component {
     });
   }
 
+  getFavorite = ({user, session_id}) => {
+    CallApi.get(`/account/${user.id}/favourite/movies`, {
+      params: {
+        session_id
+      }
+    })
+        .then(favorite => {
+          this.setState({
+            favorite: favorite.results
+          });
+        });
+  }
+
   componentDidMount() {
     const session_id = cookies.get("session_id");
     if (session_id) {
@@ -88,8 +101,9 @@ export default class App extends React.Component {
       .then(user => {
         this.updateUser(user);
         this.updateSessionId(session_id);
-        this.getFavorites({user, session_id});
+        this.getRated({user, session_id});
         this.getWatchlist({user, session_id});
+        this.getFavorite({user, session_id});
       });
 
     }
@@ -102,7 +116,7 @@ export default class App extends React.Component {
   };
 
   render() {
-    const { user, session_id, favorites, watchlist, showModal } = this.state;
+    const { user, session_id, rated, favorite, watchlist, showModal } = this.state;
     return (
       <BrowserRouter>
         <AppContext.Provider
@@ -114,10 +128,12 @@ export default class App extends React.Component {
             onLogOut: this.onLogOut,
             showModal,
             toggleModal: this.toggleModal,
-            favorites,
+            favorite,
             watchlist,
-            getFavorites: this.getFavorites,
-            getWatchlist: this.getWatchlist
+            rated,
+            getRated: this.getRated,
+            getWatchlist: this.getWatchlist,
+            getFavorite: this.getFavorite
 
           }}
         >

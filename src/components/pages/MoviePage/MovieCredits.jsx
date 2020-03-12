@@ -1,6 +1,6 @@
 import React from "react";
 
-class Actors extends React.Component {
+class MovieCredits extends React.Component {
   render() {
     return (
       <div>Actors</div>
@@ -8,4 +8,4 @@ class Actors extends React.Component {
   }
 }
 
-export default Actors;
+export default MovieCredits;

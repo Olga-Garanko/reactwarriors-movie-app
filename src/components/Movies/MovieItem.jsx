@@ -1,5 +1,5 @@
 import React from "react";
-import MovieFavorite from "./MovieFavorite";
+import MovieRated from "./MovieRated";
 import MovieWatchlist from "./MovieWatchlist";
 import { Link } from "react-router-dom";
 
@@ -17,7 +17,7 @@ class MovieItem extends React.Component {
         <div className="card-body">
           <Link className="card-title" to={`/movie/${item.id}`}>{item.title}</Link>
           <div className="card-text">Рейтинг: {item.vote_average}</div>
-            <MovieFavorite id={item.id} />
+            <MovieRated id={item.id} />
             <MovieWatchlist id={item.id} />
         </div>
       </div>

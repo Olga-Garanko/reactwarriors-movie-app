@@ -1,30 +1,30 @@
 import React from "react";
-import StarIcon from '@material-ui/icons/Star';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import CallApi from "../../api/api";
 import PropTypes from "prop-types";
 import AppContextHOC from "../HOC/AppContextHOC";
 
 class MovieFavorite extends React.Component {
-  
+
   state = {
     submitting: false
   };
 
   isFavorite = () => {
-    const { id, favorites } = this.props;
-    return favorites.findIndex(item => item.id === id) !== -1;
+    const { id, favorite } = this.props;
+    return favorite.findIndex(item => item.id === id) !== -1;
   }
 
   changeFavorite = () => {
-    const { session_id, toggleModal, id, getFavorites, user } = this.props;
+    const { session_id, toggleModal, id, getFavorite, user } = this.props;
     if (session_id) {
       this.setState({
         submitting: true
       });
       CallApi.post(`/account/${user.id}/favorite`, {
         params: {
-          session_id: session_id
+          session_id
         },
         body: {
           media_type: 'movie',
@@ -33,34 +33,33 @@ class MovieFavorite extends React.Component {
         }
       })
       .then(() => {
-        getFavorites({user, session_id})
+        getFavorite({user, session_id})
       })
       .then(() => {
           this.setState({
             submitting: false
           });
-        });
+        })
     } else toggleModal()
   }
 
   render() {
     const { session_id } = this.props;
-    const { submitting } = this.state;
     return (
       <span>
-      { session_id && this.isFavorite() ? <StarIcon onClick={this.changeFavorite} /> : <StarBorderIcon onClick={this.changeFavorite} /> }
+      { session_id && this.isFavorite() ? <FavoriteIcon onClick={this.changeFavorite} /> : <FavoriteBorderIcon onClick={this.changeFavorite} /> }
       </span>
     )
   }
 }
 
 MovieFavorite.defaultProps = {
-  favorites: []
+  favourite: []
 };
 
 MovieFavorite.propTypes = {
   id: PropTypes.number,
-  favorites: PropTypes.array
+  favorite: PropTypes.array
 };
 
 export default AppContextHOC(MovieFavorite);
