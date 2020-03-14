@@ -18,7 +18,8 @@ class MovieRated extends React.Component {
 
   changeRated = () => {
     const { session_id, toggleModal, id, getRated, user } = this.props;
-    if (session_id) {
+    console.log('changeRated');
+/*    if (session_id) {
       this.setState({
         submitting: true
       });
@@ -40,7 +41,7 @@ class MovieRated extends React.Component {
             submitting: false
           });
         });
-    } else toggleModal()
+    } else toggleModal()*/
   }
 
   render() {

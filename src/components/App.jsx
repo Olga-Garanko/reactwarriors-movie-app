@@ -78,7 +78,7 @@ export default class App extends React.Component {
   }
 
   getFavorite = ({user, session_id}) => {
-    CallApi.get(`/account/${user.id}/favourite/movies`, {
+    CallApi.get(`/account/${user.id}/favorite/movies`, {
       params: {
         session_id
       }

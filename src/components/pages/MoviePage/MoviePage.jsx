@@ -19,30 +19,42 @@ export default class MoviePage extends React.Component {
     movieVideos: [],
     movieCredits: []
   };
-  componentDidMount() {
-    CallApi.get(`/movie/${this.props.match.params.id}`)
-    .then(res => {
-        this.setState({
-          movieDetail: res
-        });
-      }
-    );
+
+  getData() {
+    CallApi.get(`/movie/${this.props.match.params.id}`,
+        {params: {
+            language: "ru-RU"
+          }})
+        .then(res => {
+              this.setState({
+                movieDetail: res
+              });
+            }
+        );
     CallApi.get(`/movie/${this.props.match.params.id}/videos`)
-    .then(res => {
-          this.setState({
-            movieVideos: res.results
-          });
-          console.log('movieVideos', res.results);
-        }
-    );
+        .then(res => {
+              this.setState({
+                movieVideos: res.results
+              });
+              console.log('movieVideos', res.results);
+            }
+        );
     CallApi.get(`/movie/${this.props.match.params.id}/credits`)
-    .then(res => {
-          this.setState({
-            movieCredits: res.cast
-          });
-          console.log('movieCredits', res.cast);
-        }
-    );
+        .then(res => {
+              this.setState({
+                movieCredits: res.cast
+              });
+              console.log('movieCredits', res.cast);
+            }
+        );
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.match.params.id !== this.props.match.params.id){
+      this.getData();
+    }
+  }
+  componentDidMount() {
+    this.getData();
   }
   render() {
     const { movieDetail, movieVideos, movieCredits } = this.state;
