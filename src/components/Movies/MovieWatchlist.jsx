@@ -45,7 +45,6 @@ class MovieWatchlist extends React.Component {
 
   render() {
     const { session_id } = this.props;
-    const { submitting } = this.state;
     return (
       <span>
       { session_id && this.isWatchlist() ? <BookmarkIcon onClick={this.changeWatchlist} /> : <BookmarkBorderIcon onClick={this.changeWatchlist} /> }

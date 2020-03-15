@@ -6,7 +6,7 @@ class MovieCredits extends React.Component {
     return (
       <div className="mt-4 row">
         { data && data.map(i =>
-            <div key={i.id} className="col-2">
+            i.profile_path && (i.profile_path !== undefined) && <div key={i.id} className="col-2 mb-2">
               <img
                 className="card-img-top card-img--height"
                 src={`https://image.tmdb.org/t/p/w500${i.profile_path}`}

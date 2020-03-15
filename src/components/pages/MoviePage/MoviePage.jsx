@@ -4,11 +4,7 @@ import { TabContent, Nav, NavItem } from 'reactstrap';
 import MovieCredits from "./MovieCredits";
 import MovieVideos from "./MovieVideos";
 import MovieDetail from "./MovieDetail";
-import {
-  Switch,
-  Route,
-  NavLink
-} from "react-router-dom";
+import { Switch, Route, NavLink } from "react-router-dom";
 import MovieFavorite from "../../Movies/MovieFavorite";
 import MovieWatchlist from "../../Movies/MovieWatchlist";
 import MovieRated from "../../Movies/MovieRated";
@@ -36,7 +32,6 @@ export default class MoviePage extends React.Component {
               this.setState({
                 movieVideos: res.results
               });
-              console.log('movieVideos', res.results);
             }
         );
     CallApi.get(`/movie/${this.props.match.params.id}/credits`)
@@ -44,7 +39,6 @@ export default class MoviePage extends React.Component {
               this.setState({
                 movieCredits: res.cast
               });
-              console.log('movieCredits', res.cast);
             }
         );
   }
@@ -62,7 +56,7 @@ export default class MoviePage extends React.Component {
       <div className="container">
         <div className="row mt-4">
           <div className="col-4">
-            <img src={`https://image.tmdb.org/t/p/w500${movieDetail.backdrop_path || movieDetail.poster_path}`} className="card-img-top card-img--height" />
+            <img src={`https://image.tmdb.org/t/p/w500${movieDetail.backdrop_path || movieDetail.poster_path}`} className="card-img-top card-img--height" alt={movieDetail.title} />
           </div>
           <div className="col-8">
             <h2>{movieDetail.title}</h2>
