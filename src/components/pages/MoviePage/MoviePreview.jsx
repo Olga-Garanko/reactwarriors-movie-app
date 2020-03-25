@@ -19,7 +19,10 @@ class MoviePreview extends React.Component {
           <p>Рейтинг Пользователей: {movieDetail.vote_average}</p>
           <div>
             <div><MovieRated id={movieDetail.id} /> Укажите рейтинг</div>
-            <div className="float-right"><MovieFavorite id={movieDetail.id} /><MovieWatchlist id={movieDetail.id} /></div>
+            <div className="float-right">
+                <MovieFavorite id={movieDetail.id} />
+                <MovieWatchlist id={movieDetail.id} />
+            </div>
           </div>
         </div>
       </div>

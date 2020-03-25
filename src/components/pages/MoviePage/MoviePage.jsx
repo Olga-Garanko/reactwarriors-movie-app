@@ -47,20 +47,20 @@ export default class MoviePage extends React.Component {
     return (
       <div className="container">
         { loading && <div>...loading</div>}
-        { !loading && movieDetail && <MoviePreview movieDetail={movieDetail} /> }
+        { !loading && <MoviePreview movieDetail={movieDetail} /> }
         <div className="row mt-4">
           <div className="col-12">
-            <MovieTabs url={url} />
+            <MovieTabs />
             <TabContent>
               <Switch>
-                <Route path={`${this.props.match.url}`} exact >
+                <Route path={`${url}`} exact >
                   { loading && <div>...loading</div>}
-                  { !loading && movieDetail && <MovieDetail movieDetail={movieDetail} /> }
+                  { !loading && <MovieDetail movieDetail={movieDetail} /> }
                 </Route>
-                <Route path={`${this.props.match.url}/videos`}>
+                <Route path={`${url}/videos`}>
                   <MovieVideos id={id} />
                 </Route>
-                <Route path={`${this.props.match.url}/actors`}>
+                <Route path={`${url}/actors`}>
                   <MovieCredits id={id} />
                 </Route>
               </Switch>

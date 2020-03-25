@@ -1,5 +1,6 @@
 import React from "react";
 import CallApi from "../../../../api/api";
+import MovieImage from "../../../UIComponents/MovieImage";
 
 class MovieCredits extends React.Component {
 
@@ -27,13 +28,9 @@ class MovieCredits extends React.Component {
     return (
       <div className="mt-4 row">
         { loading && <div>...loading</div>}
-        { !loading && movieCredits && movieCredits.length && movieCredits.map(i =>
-          i.profile_path && <div key={i.id} className="col-2 mb-2">
-            <img
-              className="card-img-top card-img--height"
-              src={`https://image.tmdb.org/t/p/w500${i.profile_path}`}
-              alt="i.name"
-            />
+        { !loading && movieCredits.length && movieCredits.map(actor =>
+            actor.profile_path && <div key={actor.id} className="col-2 mb-2">
+              <MovieImage title={actor.name} path={actor.profile_path} />
           </div>
         )}
       </div>

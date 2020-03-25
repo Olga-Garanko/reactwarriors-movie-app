@@ -1,8 +1,7 @@
 import React from "react";
-import "../MoviePage.css";
 import CallApi from "../../../../api/api";
 
-class Videos extends React.Component {
+class MovieVideos extends React.Component {
 
   state = {
     loading: false,
@@ -29,15 +28,15 @@ class Videos extends React.Component {
       <div className="mt-4">
         { loading && <div>...loading</div>}
         {
-          !loading && movieVideos && movieVideos.length && movieVideos.map(i => {
-            switch (i.site) {
+          !loading && movieVideos.length && movieVideos.map(video => {
+            switch (video.site) {
               case "YouTube":
-                return <div key={i.key}>
-                  <iframe width="560" height="315" src={`https://www.youtube.com/embed/${i.key}`} frameBorder="0"  title={i.name} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                return <div key={video.key}>
+                  <iframe width="560" height="315" src={`https://www.youtube.com/embed/${video.key}`} frameBorder="0"  title={video.name} allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
                 </div>;
               case "Vimeo":
-                return <div key={i.key}>
-                  <iframe src={`https://player.vimeo.com/video/${i.key}`} width="560" height="315" frameBorder="0" title={i.name} webkitallowfullscreen mozallowfullscreen allowFullScreen />
+                return <div key={video.key}>
+                  <iframe src={`https://player.vimeo.com/video/${video.key}`} width="560" height="315" frameBorder="0" title={video.name} webkitallowfullscreen mozallowfullscreen allowFullScreen />
                 </div>;
               default:
                 return null;
@@ -50,4 +49,4 @@ class Videos extends React.Component {
   }
 }
 
-export default Videos;
+export default MovieVideos;

@@ -6,7 +6,7 @@ const mainSrc = 'https://image.tmdb.org/t/p/w500';
 export default class MovieImage extends React.Component {
   static propTypes = {
     path: PropTypes.string,
-    title: PropTypes.func
+    title: PropTypes.string
   };
 
   static defaultProps = {
