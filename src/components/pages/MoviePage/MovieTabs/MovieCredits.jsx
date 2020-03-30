@@ -25,12 +25,18 @@ class MovieCredits extends React.Component {
 
   render() {
     const { loading, movieCredits } = this.state;
+    if (loading) {
+      return (
+          <div className="mt-4">
+            <div>...loading</div>
+          </div>
+      )
+    }
     return (
       <div className="mt-4 row">
-        { loading && <div>...loading</div>}
-        { !loading && movieCredits.length && movieCredits.map(actor =>
+        { movieCredits.map(actor =>
             actor.profile_path && <div key={actor.id} className="col-2 mb-2">
-              <MovieImage title={actor.name} path={actor.profile_path} />
+              <MovieImage alt={actor.name} src={actor.profile_path} />
           </div>
         )}
       </div>

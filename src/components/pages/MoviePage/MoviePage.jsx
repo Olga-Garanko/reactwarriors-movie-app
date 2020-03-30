@@ -15,10 +15,10 @@ export default class MoviePage extends React.Component {
   };
 
   componentDidMount() {
-    this.getData();
+    this.getMovieDetail();
   }
 
-  getData() {
+  getMovieDetail() {
     const { id } = this.props.match.params;
     this.setState({
       loading: true
@@ -37,25 +37,31 @@ export default class MoviePage extends React.Component {
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.match.params.id !== this.props.match.params.id){
-      this.getData();
+      this.getMovieDetail();
     }
   }
 
   render() {
     const { loading, movieDetail } = this.state;
-    const { params: { id }, url } = this.props.match;
+    const {
+      params: { id },
+      url
+    } = this.props.match;
+    if (loading) {
+      return (
+          <div className="container">...loading</div>
+      )
+    }
     return (
       <div className="container">
-        { loading && <div>...loading</div>}
-        { !loading && <MoviePreview movieDetail={movieDetail} /> }
+        <MoviePreview movieDetail={movieDetail} />
         <div className="row mt-4">
           <div className="col-12">
             <MovieTabs />
             <TabContent>
               <Switch>
                 <Route path={`${url}`} exact >
-                  { loading && <div>...loading</div>}
-                  { !loading && <MovieDetail movieDetail={movieDetail} /> }
+                  <MovieDetail movieDetail={movieDetail} />
                 </Route>
                 <Route path={`${url}/videos`}>
                   <MovieVideos id={id} />

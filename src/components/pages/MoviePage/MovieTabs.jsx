@@ -11,12 +11,11 @@ const tabs = [
 class MovieTabs extends React.Component {
 
   render() {
-    const { url } = this.props.match;
     return (
       <Nav tabs>
-        { tabs.length && tabs.map((tab, inx) =>
-          <NavItem key={inx}>
-            <NavLink exact={tab.exact} to={`${url}${tab.link}`} className="nav-link">
+        { tabs.map((tab, index) =>
+          <NavItem key={index}>
+            <NavLink exact={tab.exact} to={`${this.props.match.url}${tab.link}`} className="nav-link">
               {tab.name}
             </NavLink>
           </NavItem>

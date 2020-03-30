@@ -11,7 +11,11 @@ class MoviePreview extends React.Component {
     return (
       <div className="row mt-4">
         <div className="col-4">
-            <MovieImage title={movieDetail.title} path={movieDetail.backdrop_path || movieDetail.poster_path} />
+            <MovieImage
+                alt={movieDetail.title}
+                src={movieDetail.backdrop_path || movieDetail.poster_path}
+                className="my-class"
+            />
         </div>
         <div className="col-8">
           <h2>{movieDetail.title}</h2>
