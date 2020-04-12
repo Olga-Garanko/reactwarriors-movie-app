@@ -3,6 +3,8 @@ import MoviesPage from "./pages/MoviesPage/MoviesPage";
 import MoviePage from "./pages/MoviePage/MoviePage";
 import Header from "./Header/Header";
 import CallApi from "../api/api";
+import {actionCreatorUpdateAuth} from "../"
+
 import Cookies from "universal-cookie";
 
 import { BrowserRouter, Route } from "react-router-dom";
@@ -15,8 +17,8 @@ export default class App extends React.Component {
     super();
 
     this.state = {
-      user: null,
-      session_id: cookies.get("session_id"),
+/*      user: null,
+      session_id: cookies.get("session_id"),*/
       rated: [],
       watchlist: [],
       favorite: [],
@@ -24,20 +26,21 @@ export default class App extends React.Component {
     };
   }
 
-  updateUser = user => {
-    this.setState({
-      user
-    });
-  };
-
-  updateSessionId = session_id => {
-    this.setState({
+  updateAuth = (user, session_id) => {
+    this.props.store.dispatch(
+      actionCreatorUpdateAuth({
+        user,
+        session_id
+      })
+    )
+/*    this.setState({
+      user,
       session_id
     });    
     cookies.set("session_id", session_id, {
       path: "/",
       maxAge: 2592000
-    });
+    });*/
   };
 
   onLogOut = () => {
@@ -91,7 +94,11 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const session_id = cookies.get("session_id");
+    this.props.store.subscribe(() => {
+      console.log("change", this.props.store.getState());
+      this.forceUpdate();
+    })
+/*    const session_id = cookies.get("session_id");
     if (session_id) {
       CallApi.get("/account", {
         params: {
@@ -99,14 +106,13 @@ export default class App extends React.Component {
         }
       })
       .then(user => {
-        this.updateUser(user);
-        this.updateSessionId(session_id);
+        this.updateAuth(user, session_id);
         this.getRated({user, session_id});
         this.getWatchlist({user, session_id});
         this.getFavorite({user, session_id});
       });
 
-    }
+    }*/
   }
 
   toggleModal = () => {
@@ -116,15 +122,15 @@ export default class App extends React.Component {
   };
 
   render() {
-    const { user, session_id, rated, favorite, watchlist, showModal } = this.state;
+    const { user, session_id } = this.props.store.getState();
+    const { rated, favorite, watchlist, showModal } = this.state;
     return (
       <BrowserRouter>
         <AppContext.Provider
           value={{
             user,
-            updateUser: this.updateUser,
-            session_id,
-            updateSessionId: this.updateSessionId,
+            session_id,            
+            updateAuth: this.updateAuth,
             onLogOut: this.onLogOut,
             showModal,
             toggleModal: this.toggleModal,

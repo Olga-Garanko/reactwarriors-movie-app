@@ -56,7 +56,7 @@ class LoginForm extends React.Component {
   };
 
   onSubmit = () => {
-    const { updateSessionId, updateUser, getFavorites, getWatchlist } = this.props;
+    const { user, updateAuth, getFavorites, getWatchlist } = this.props;
     this.setState({
       submitting: true
     });
@@ -79,7 +79,7 @@ class LoginForm extends React.Component {
         });
       })
       .then(data => {
-        updateSessionId(data.session_id);
+        updateAuth(user, data.session_id);
         session_id = data.session_id;
         return CallApi.get("/account", {
           params: {
@@ -88,7 +88,7 @@ class LoginForm extends React.Component {
         });
       })
       .then(user => {
-        updateUser(user);
+        updateAuth(user, session_id);
         getFavorites({user, session_id});
         getWatchlist({user, session_id});
         this.setState({
