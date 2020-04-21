@@ -3,7 +3,7 @@ import MoviesPage from "./pages/MoviesPage/MoviesPage";
 import MoviePage from "./pages/MoviePage/MoviePage";
 import Header from "./Header/Header";
 import CallApi from "../api/api";
-import {actionCreatorUpdateAuth} from "../"
+import {actionCreatorUpdateAuth, actionCreatorLogOut} from "../actions/actions"
 
 import Cookies from "universal-cookie";
 
@@ -44,14 +44,15 @@ export default class App extends React.Component {
   };
 
   onLogOut = () => {
-    cookies.remove("session_id");
+    /*cookies.remove("session_id");
     this.setState({
       session_id: null,
       user: null,
       rated: [],
       watchlist: [],
       favorite: [],
-    });
+    });*/
+    this.props.store.dispatch(actionCreatorLogOut())
   };
 
   getRated = ({user, session_id}) => {
@@ -94,15 +95,17 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    this.props.store.subscribe(() => {
-      console.log("change", this.props.store.getState());
+    const { store } = this.props;
+    const { session_id } = store.getState();
+    store.subscribe(() => {
+      console.log("change", store.getState());
       this.forceUpdate();
     })
-/*    const session_id = cookies.get("session_id");
+    /*const session_id = cookies.get("session_id");*/
     if (session_id) {
       CallApi.get("/account", {
         params: {
-          session_id: session_id
+          session_id
         }
       })
       .then(user => {
@@ -112,7 +115,7 @@ export default class App extends React.Component {
         this.getFavorite({user, session_id});
       });
 
-    }*/
+    }
   }
 
   toggleModal = () => {
