@@ -3,16 +3,16 @@ import MoviesPage from "./pages/MoviesPage/MoviesPage";
 import MoviePage from "./pages/MoviePage/MoviePage";
 import Header from "./Header/Header";
 import CallApi from "../api/api";
-import {actionCreatorUpdateAuth, actionCreatorLogOut} from "../actions/actions"
-
+import {actionCreatorUpdateAuth, actionCreatorLogOut} from "../actions/actions";
 import Cookies from "universal-cookie";
-
 import { BrowserRouter, Route } from "react-router-dom";
+import { connect } from 'react-redux'
 
 const cookies = new Cookies();
 
 export const AppContext = React.createContext();
-export default class App extends React.Component {
+
+class App extends React.Component {
   constructor() {
     super();
 
@@ -27,12 +27,12 @@ export default class App extends React.Component {
   }
 
   updateAuth = (user, session_id) => {
-    this.props.store.dispatch(
+/*    this.props.store.dispatch(
       actionCreatorUpdateAuth({
         user,
         session_id
       })
-    )
+    )*/
 /*    this.setState({
       user,
       session_id
@@ -52,7 +52,7 @@ export default class App extends React.Component {
       watchlist: [],
       favorite: [],
     });*/
-    this.props.store.dispatch(actionCreatorLogOut())
+/*    this.props.store.dispatch(actionCreatorLogOut())*/
   };
 
   getRated = ({user, session_id}) => {
@@ -95,13 +95,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    const { store } = this.props;
-    const { session_id } = store.getState();
-    store.subscribe(() => {
-      console.log("change", store.getState());
-      this.forceUpdate();
-    })
-    /*const session_id = cookies.get("session_id");*/
+    const { session_id } = this.props;
     if (session_id) {
       CallApi.get("/account", {
         params: {
@@ -109,7 +103,7 @@ export default class App extends React.Component {
         }
       })
       .then(user => {
-        this.updateAuth(user, session_id);
+        this.props.updateAuth(user, session_id);
         this.getRated({user, session_id});
         this.getWatchlist({user, session_id});
         this.getFavorite({user, session_id});
@@ -125,7 +119,8 @@ export default class App extends React.Component {
   };
 
   render() {
-    const { user, session_id } = this.props.store.getState();
+    console.log(this.props);
+    const { user, session_id, isAuth, updateAuth, onLogOut } = this.props;
     const { rated, favorite, watchlist, showModal } = this.state;
     return (
       <BrowserRouter>
@@ -133,8 +128,8 @@ export default class App extends React.Component {
           value={{
             user,
             session_id,            
-            updateAuth: this.updateAuth,
-            onLogOut: this.onLogOut,
+            updateAuth,
+            onLogOut,
             showModal,
             toggleModal: this.toggleModal,
             favorite,
@@ -156,3 +151,22 @@ export default class App extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+    session_id: state.session_id,
+    isAuth: state.isAuth
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateAuth: (user, session_id) => dispatch(actionCreatorUpdateAuth({
+      user, session_id
+    })),
+    onLogOut: () => dispatch(actionCreatorLogOut())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

@@ -56,7 +56,7 @@ class LoginForm extends React.Component {
   };
 
   onSubmit = () => {
-    const { user, updateAuth, getFavorites, getWatchlist } = this.props;
+    const { user, updateAuth, getFavorite, getWatchlist } = this.props;
     this.setState({
       submitting: true
     });
@@ -89,7 +89,7 @@ class LoginForm extends React.Component {
       })
       .then(user => {
         updateAuth(user, session_id);
-        getFavorites({user, session_id});
+        getFavorite({user, session_id});
         getWatchlist({user, session_id});
         this.setState({
           submitting: false

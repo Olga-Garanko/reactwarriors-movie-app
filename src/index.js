@@ -4,23 +4,11 @@ import App from "./components/App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./stylesheets/index.css";
 import store from "./store/store";
+import { Provider } from 'react-redux'
 
-store.subscribe(() => {
-	console.log("change", store.getState());
-})
-
-/*store.dispatch(actionCreatorUpdateAuth({
-	user: {
-		name: "Olga"
-	},
-	session_id: "text"
-}));
-
-store.dispatch(actionCreatorUpdateAuth({
-	user: {
-		name: "Olga1"
-	},
-	session_id: "text1"
-}));*/
-
-ReactDOM.render(<App store={store} />, document.getElementById("root"));
+ReactDOM.render(
+	<Provider store={store}>
+		<App />
+	</Provider>,
+	document.getElementById("root")
+);
