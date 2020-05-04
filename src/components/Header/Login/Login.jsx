@@ -5,17 +5,17 @@ import { AppContext } from "../../App";
 
 class Login extends React.Component {
   render() {
-    const { showModal, toggleModal } = this.props;
+    const { showLoginModal, toggleLoginModal } = this.props;
     return (
       <div>
         <button
           className="btn btn-success"
           type="button"
-          onClick={toggleModal}
+          onClick={toggleLoginModal}
         >
           Login
         </button>
-        <Modal isOpen={showModal} toggle={toggleModal}>
+        <Modal isOpen={showLoginModal} toggle={toggleLoginModal}>
           <ModalBody>
             <LoginForm />
           </ModalBody>
@@ -29,7 +29,7 @@ const LoginContainer = props => {
   return (
     <AppContext.Consumer>
       {context => {
-        return <Login showModal={context.showModal}  toggleModal={context.toggleModal} {...props} />;
+        return <Login showLoginModal={context.showLoginModal}  toggleLoginModal={context.toggleLoginModal} {...props} />;
       }}
     </AppContext.Consumer>
   );

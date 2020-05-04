@@ -17,7 +17,7 @@ class MovieFavorite extends React.Component {
   }
 
   changeFavorite = () => {
-    const { session_id, toggleModal, id, getFavorite, user } = this.props;
+    const { session_id, toggleLoginModal, id, getFavorite, user } = this.props;
     if (session_id) {
       this.setState({
         submitting: true
@@ -40,7 +40,7 @@ class MovieFavorite extends React.Component {
             submitting: false
           });
         })
-    } else toggleModal()
+    } else toggleLoginModal()
   }
 
   render() {

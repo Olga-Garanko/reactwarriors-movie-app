@@ -17,7 +17,7 @@ class MovieWatchlist extends React.Component {
   }
 
   changeWatchlist = () => {
-    const { session_id, toggleModal, id, getWatchlist, user } = this.props;
+    const { session_id, toggleLoginModal, id, getWatchlist, user } = this.props;
     if (session_id) {
       this.setState({
         submitting: true
@@ -40,7 +40,7 @@ class MovieWatchlist extends React.Component {
             submitting: false
           });
         })
-    } else toggleModal()
+    } else toggleLoginModal()
   }
 
   render() {
