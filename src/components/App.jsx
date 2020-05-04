@@ -3,7 +3,7 @@ import MoviesPage from "./pages/MoviesPage/MoviesPage";
 import MoviePage from "./pages/MoviePage/MoviePage";
 import Header from "./Header/Header";
 import CallApi from "../api/api";
-import { updateAuth, onLogOut, toggleLoginModal, updateFavoriteMovies, updateRatedMovies, updateWatchlistMovies } from "../actions/actions";
+import { updateAuth, onLogOut, toggleLoginModal, updateFavoriteMovies, updateRatedMovies, updateWatchlistMovies } from "../redux/auth/auth.actions";
 import { BrowserRouter, Route } from "react-router-dom";
 import { connect } from 'react-redux';
 
@@ -63,7 +63,6 @@ class App extends React.Component {
 	}
 
   render() {
-	console.log(this.props);
 	const { 
 			user,
 			session_id,

@@ -1,3 +1,4 @@
+import * as types from "./auth.types"
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
@@ -13,7 +14,7 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case "UPDATE_AUTH":
+		case types.UPDATE_AUTH:
 			cookies.set("session_id", action.payload.session_id, {
 				path: "/",
 				maxAge: 2592000
@@ -23,29 +24,29 @@ const authReducer = (state = initialState, action) => {
 				user: action.payload.user,
 				session_id: action.payload.session_id
 			};
-		case "LOGOUT":
+		case types.LOGOUT:
 			cookies.remove("session_id");
 			return {
 				...state,
 				user: null,
 				session_id: null
 			}
-		case "TOGGLE_LOGIN_MODAL":
+		case types.TOGGLE_LOGIN_MODAL:
 			return {
 				...state,
 				showLoginModal: !state.showLoginModal
 			}
-		case "UPDATE_FAVOURITE_MOVIES":
+		case types.UPDATE_FAVOURITE_MOVIES:
 			return {
 				...state,
 				favorite: action.payload
 			}
-		case "UPDATE_WATCHLIST_MOVIES":
+		case types.UPDATE_WATCHLIST_MOVIES:
 			return {
 				...state,
 				watchlist: action.payload
 			}
-		case "UPDATE_RATED_MOVIES":
+		case types.UPDATE_RATED_MOVIES:
 			return {
 				...state,
 				rated: action.payload
