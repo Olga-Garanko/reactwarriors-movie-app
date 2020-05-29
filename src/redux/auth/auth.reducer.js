@@ -36,7 +36,7 @@ const authReducer = (state = initialState, action) => {
 				...state,
 				showLoginModal: !state.showLoginModal
 			}
-		case types.UPDATE_FAVOURITE_MOVIES:
+		case types.UPDATE_FAVORITE_MOVIES:
 			return {
 				...state,
 				favorite: action.payload
