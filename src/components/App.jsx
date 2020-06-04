@@ -3,7 +3,7 @@ import MoviesPage from "./pages/MoviesPage/MoviesPage";
 import MoviePage from "./pages/MoviePage/MoviePage";
 import Header from "./Header/Header";
 import CallApi from "../api/api";
-import { updateAuth, onLogOut, toggleLoginModal, updateFavoriteMovies, updateRatedMovies, updateWatchlistMovies } from "../redux/auth/auth.actions";
+import { updateAuth, onLogOut, toggleLoginModal, updateFavoriteMovies, updateRatedMovies, updateWatchlistMovies, fetchAuth } from "../redux/auth/auth.actions";
 import { BrowserRouter, Route } from "react-router-dom";
 import { connect } from 'react-redux';
 
@@ -12,20 +12,9 @@ export const AppContext = React.createContext();
 class App extends React.Component {
 
   componentDidMount() {
-	const { session_id } = this.props;
+	const { session_id, fetchAuth } = this.props;
 	if (session_id) {
-	  CallApi.get("/account", {
-		params: {
-		  session_id
-		}
-	  })
-	  .then(user => {
-	  	console.log(user);
-		this.props.updateAuth(user, session_id);
-		this.getRated({ user, session_id });
-		this.getWatchlist({ user, session_id });
-		this.getFavorite({ user, session_id });
-	  });
+		fetchAuth(session_id)
 	}
   }
 
@@ -48,17 +37,6 @@ class App extends React.Component {
 		})
 		.then(watchlist => {
 			this.props.updateWatchlistMovies(watchlist.results);
-		});
-	}
-
-	getFavorite = ({user, session_id}) => {
-		CallApi.get(`/account/${user.id}/favorite/movies`, {
-			params: {
-				session_id
-			}
-		})
-		.then(favorite => {
-			this.props.updateFavoriteMovies(favorite.results);
 		});
 	}
 
@@ -121,7 +99,8 @@ const mapDispatchToProps = {
 	toggleLoginModal,
 	updateFavoriteMovies,
 	updateRatedMovies,
-	updateWatchlistMovies
+	updateWatchlistMovies,
+	fetchAuth
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
