@@ -6,7 +6,7 @@ import {
   DropdownItem
 } from "reactstrap";
 import CallApi from "../../api/api";
-import AppContextHOC from "../HOC/AppContextHOC";
+import { withAuth } from '../../hoc/withAuth';
 
 class User extends Component {
   state = {
@@ -45,7 +45,7 @@ class User extends Component {
   };*/
 
   render() {
-    const { user } = this.props;
+    const { auth } = this.props;
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
         <DropdownToggle
@@ -58,7 +58,7 @@ class User extends Component {
             width="40"
             className="rounded-circle"
             src={`https://secure.gravatar.com/avatar/${
-              user.avatar.gravatar.hash
+              auth.user.avatar.gravatar.hash
             }.jpg?s=64"`}
             alt=""
             onClick={this.toggleDropdown}
@@ -72,4 +72,4 @@ class User extends Component {
   }
 }
 
-export default AppContextHOC(User);
+export default withAuth(User);

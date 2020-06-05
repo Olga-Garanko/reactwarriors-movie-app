@@ -1,11 +1,11 @@
 import React from "react";
 import Login from "./Login/Login";
 import User from "./User";
-import { AppContext } from "../App";
+import { withAuth } from '../../hoc/withAuth';
 
 class Header extends React.Component {
   render() {
-    const { user } = this.props;
+  const { auth } = this.props;
     return (
       <nav className="navbar navbar-dark bg-primary">
         <div className="container">
@@ -16,23 +16,11 @@ class Header extends React.Component {
               </a>
             </li>
           </ul>
-          { user ? <User /> : <Login /> }
+          { auth.user ? <User /> : <Login /> }
         </div>
       </nav>
     );
   }
 }
 
-const HeaderContainer = props => {
-  return (
-    <AppContext.Consumer>
-      {context => {
-        return <Header user={context.user} {...props} />;
-      }}
-    </AppContext.Consumer>
-  );
-};
-
-HeaderContainer.displayName = "HeaderContainer";
-
-export default HeaderContainer;
+export default withAuth(Header);

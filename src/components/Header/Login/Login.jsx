@@ -1,21 +1,21 @@
 import React from "react";
 import { Modal, ModalBody } from "reactstrap";
 import LoginForm from "./LoginForm";
-import { AppContext } from "../../App";
+import { withAuth } from '../../../hoc/withAuth';
 
 class Login extends React.Component {
   render() {
-    const { showLoginModal, toggleLoginModal } = this.props;
+    const { auth, authActions } = this.props;
     return (
       <div>
         <button
           className="btn btn-success"
           type="button"
-          onClick={toggleLoginModal}
+          onClick={authActions.toggleLoginModal}
         >
           Login
         </button>
-        <Modal isOpen={showLoginModal} toggle={toggleLoginModal}>
+        <Modal isOpen={auth.showLoginModal} toggle={authActions.toggleLoginModal}>
           <ModalBody>
             <LoginForm />
           </ModalBody>
@@ -25,16 +25,4 @@ class Login extends React.Component {
   }
 }
 
-const LoginContainer = props => {
-  return (
-    <AppContext.Consumer>
-      {context => {
-        return <Login showLoginModal={context.showLoginModal}  toggleLoginModal={context.toggleLoginModal} {...props} />;
-      }}
-    </AppContext.Consumer>
-  );
-};
-
-LoginContainer.displayName = "LoginContainer";
-
-export default LoginContainer;
+export default withAuth(Login);

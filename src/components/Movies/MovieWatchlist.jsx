@@ -3,7 +3,7 @@ import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 import CallApi from "../../api/api";
 import PropTypes from "prop-types";
-import AppContextHOC from "../HOC/AppContextHOC";
+import { withAuth } from '../../hoc/withAuth';
 
 class MovieWatchlist extends React.Component {
 
@@ -62,5 +62,5 @@ MovieWatchlist.propTypes = {
   watchlist: PropTypes.array
 };
 
-export default AppContextHOC(MovieWatchlist);
+export default withAuth(MovieWatchlist);
 

@@ -2,7 +2,7 @@ import React from "react";
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import PropTypes from "prop-types";
-import AppContextHOC from "../HOC/AppContextHOC";
+import { withAuth } from '../../hoc/withAuth';
 
 class MovieRated extends React.Component {
   
@@ -38,5 +38,5 @@ MovieRated.propTypes = {
   rated: PropTypes.array
 };
 
-export default AppContextHOC(MovieRated);
+export default withAuth(MovieRated);
 

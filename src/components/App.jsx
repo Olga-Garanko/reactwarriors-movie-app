@@ -3,18 +3,15 @@ import MoviesPage from "./pages/MoviesPage/MoviesPage";
 import MoviePage from "./pages/MoviePage/MoviePage";
 import Header from "./Header/Header";
 import CallApi from "../api/api";
-import { updateAuth, onLogOut, toggleLoginModal, updateFavoriteMovies, updateRatedMovies, updateWatchlistMovies, fetchAuth } from "../redux/auth/auth.actions";
 import { BrowserRouter, Route } from "react-router-dom";
-import { connect } from 'react-redux';
-
-export const AppContext = React.createContext();
+import { withAuth } from '../hoc/withAuth';
 
 class App extends React.Component {
 
   componentDidMount() {
-	const { session_id, fetchAuth } = this.props;
-	if (session_id) {
-		fetchAuth(session_id)
+	const { auth, authActions } = this.props;
+	if (auth.session_id) {
+		authActions.fetchAuth(auth.session_id)
 	}
   }
 
@@ -41,66 +38,16 @@ class App extends React.Component {
 	}
 
   render() {
-	const { 
-			user,
-			session_id,
-			updateAuth,
-			onLogOut,
-			showLoginModal,
-			toggleLoginModal,            
-			rated,
-			favorite,
-			watchlist
-		  } = this.props;
 	return (
-	  <BrowserRouter>
-		<AppContext.Provider
-		  value={{
-			user,
-			session_id,            
-			updateAuth,
-			onLogOut,
-			showLoginModal,
-			toggleLoginModal,
-			favorite,
-			watchlist,
-			rated,
-			getRated: this.getRated,
-			getWatchlist: this.getWatchlist,
-			getFavorite: this.getFavorite
-
-		  }}
-		>
-		<div>
-		  <Header />
-		  <Route exact path="/" component={MoviesPage} />
-		  <Route path="/movie/:id" component={MoviePage} />
-		</div>
-	  </AppContext.Provider>
-	</BrowserRouter>
+		<BrowserRouter>
+			<div>
+			  <Header />
+			  <Route exact path="/" component={MoviesPage} />
+			  <Route path="/movie/:id" component={MoviePage} />
+			</div>
+		</BrowserRouter>
 	);
   }
 }
 
-const mapStateToProps = (state) => {
-	return {
-		user: state.auth.user,
-		session_id: state.auth.session_id,
-		showLoginModal: state.auth.showLoginModal,
-		rated: state.auth.rated,
-		watchlist: state.auth.watchlist,
-		favorite: state.auth.favorite
-  }
-}
-
-const mapDispatchToProps = {
-	updateAuth,
-	onLogOut,
-	toggleLoginModal,
-	updateFavoriteMovies,
-	updateRatedMovies,
-	updateWatchlistMovies,
-	fetchAuth
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default withAuth(App);

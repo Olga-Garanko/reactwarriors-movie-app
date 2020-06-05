@@ -3,7 +3,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import CallApi from "../../api/api";
 import PropTypes from "prop-types";
-import AppContextHOC from "../HOC/AppContextHOC";
+import { withAuth } from '../../hoc/withAuth';
 
 class MovieFavorite extends React.Component {
 
@@ -62,5 +62,5 @@ MovieFavorite.propTypes = {
   favorite: PropTypes.array
 };
 
-export default AppContextHOC(MovieFavorite);
+export default withAuth(MovieFavorite);
 
