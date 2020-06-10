@@ -12,7 +12,7 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case types.FETCH_sUCCESS_AUTH:
+		case types.UPDATE_AUTH:
 			return {
 				...state,
 				user: action.payload.user,

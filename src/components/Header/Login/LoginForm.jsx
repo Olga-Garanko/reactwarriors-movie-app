@@ -56,7 +56,7 @@ class LoginForm extends React.Component {
   };
 
   onSubmit = () => {
-    const { updateAuth, getFavorite, getWatchlist, toggleLoginModal } = this.props;
+    const { authActions } = this.props;
     this.setState({
       submitting: true
     });
@@ -89,10 +89,8 @@ class LoginForm extends React.Component {
       })
       .then(user => {
         console.log('user', user);
-        updateAuth({user, session_id});
-        getFavorite({user, session_id});
-        getWatchlist({user, session_id});
-        toggleLoginModal();
+        authActions.updateAuth({ user, session_id });
+        authActions.toggleLoginModal();
         this.setState({
           submitting: false
         });

@@ -22,27 +22,12 @@ class User extends Component {
   handleLogOut = () => {
     CallApi.delete("/authentication/session", {
       body: {
-        session_id: this.props.session_id,
+        session_id: this.props.auth.session_id,
       }
     }).then(() => {
-      this.props.onLogOut();
+      this.props.authActions.onLogOut();
     });
   };
-
-  /*handleLogOut = () => {
-    fetchApi(`${API_URL}/authentication/session?api_key=${API_KEY_3}`, {
-      method: "DELETE",
-      mode: "cors",
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify({
-        session_id: this.props.session_id
-      })
-    }).then(() => {
-      this.props.onLogOut();
-    });
-  };*/
 
   render() {
     const { auth } = this.props;

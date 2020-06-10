@@ -15,28 +15,6 @@ class App extends React.Component {
 	}
   }
 
-	getRated = ({user, session_id}) => {
-		CallApi.get(`/account/${user.id}/rated/movies`, {
-			params: {
-				session_id
-			}
-		})
-		.then(rated => {
-			this.props.updateRatedMovies(rated.results);
-		});
-	}
-
-	getWatchlist = ({user, session_id}) => {
-		CallApi.get(`/account/${user.id}/watchlist/movies`, {
-			params: {
-				session_id
-			}
-		})
-		.then(watchlist => {
-			this.props.updateWatchlistMovies(watchlist.results);
-		});
-	}
-
   render() {
 	return (
 		<BrowserRouter>

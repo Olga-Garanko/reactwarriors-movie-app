@@ -12,12 +12,14 @@ class MovieFavorite extends React.Component {
   };
 
   isFavorite = () => {
-    const { id, favorite } = this.props;
+    const { id } = this.props;
+    const { favorite } = this.props.auth;
     return favorite.findIndex(item => item.id === id) !== -1;
   }
 
   changeFavorite = () => {
-    const { session_id, toggleLoginModal, id, getFavorite, user } = this.props;
+    const { authActions, id } = this.props;
+    const { user, session_id } = this.props.auth;
     if (session_id) {
       this.setState({
         submitting: true
@@ -33,18 +35,18 @@ class MovieFavorite extends React.Component {
         }
       })
       .then(() => {
-        getFavorite({user, session_id})
+        authActions.fetchFavoriteMovies({user, session_id})
       })
       .then(() => {
           this.setState({
             submitting: false
           });
         })
-    } else toggleLoginModal()
+    } else authActions.toggleLoginModal()
   }
 
   render() {
-    const { session_id } = this.props;
+    const { session_id } = this.props.auth;
     return (
       <span>
       { session_id && this.isFavorite() ? <FavoriteIcon onClick={this.changeFavorite} /> : <FavoriteBorderIcon onClick={this.changeFavorite} /> }

@@ -5,14 +5,16 @@ export const fetchAuth = session_id => dispatch => {
     type: "FETCH_REQUEST_AUTH"
   });
   CallApi.get("/account", {
-  params: {
-    session_id
-  }
+    params: {
+      session_id
+    }
   })
   .then(user => {
     console.log(user);
     dispatch(updateAuth({ user, session_id }));
     dispatch(fetchFavoriteMovies({ user, session_id }));
+    dispatch(fetchRatedMovies({ user, session_id }));
+    dispatch(fetchWatchlistMovies({ user, session_id }));
   })
   .catch(error => {
     dispatch({
@@ -60,11 +62,33 @@ export const updateFavoriteMovies = movies => {
   };
 };
 
+export const fetchRatedMovies = ({ user, session_id }) => dispatch => {
+    CallApi.get(`/account/${user.id}/rated/movies`, {
+      params: {
+        session_id
+      }
+    })
+    .then(rated => {
+      dispatch(updateRatedMovies(rated.results));
+    });
+};
+
 export const updateRatedMovies = movies => {
   return {
     type: "UPDATE_RATED_MOVIES",
     payload: movies
   };
+};
+
+export const fetchWatchlistMovies = ({ user, session_id }) => dispatch => {
+    CallApi.get(`/account/${user.id}/watchlist/movies`, {
+      params: {
+        session_id
+      }
+    })
+    .then(watchlist => {
+      dispatch(updateWatchlistMovies(watchlist.results));
+    });
 };
 
 export const updateWatchlistMovies = movies => {
