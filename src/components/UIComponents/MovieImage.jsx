@@ -11,7 +11,8 @@ export default class MovieImage extends React.Component {
 
   static defaultProps = {
     src: '',
-    alt: ''
+    alt: '',
+    className: ''
   };
 
   render() {

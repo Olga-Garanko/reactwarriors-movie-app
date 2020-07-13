@@ -2,7 +2,7 @@ import React from "react";
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import PropTypes from "prop-types";
-import { withAuth } from '../../hoc/withAuth';
+import { withAuth } from '../../../../hoc/withAuth';
 
 class MovieRated extends React.Component {
   

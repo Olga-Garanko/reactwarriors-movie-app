@@ -1,9 +1,9 @@
 import React from "react";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import CallApi from "../../api/api";
+import CallApi from "../../../../api/api";
 import PropTypes from "prop-types";
-import { withAuth } from '../../hoc/withAuth';
+import { withAuth } from '../../../../hoc/withAuth';
 
 class MovieFavorite extends React.Component {
 
@@ -20,29 +20,28 @@ class MovieFavorite extends React.Component {
   changeFavorite = () => {
     const { authActions, id } = this.props;
     const { user, session_id } = this.props.auth;
-    if (session_id) {
-      this.setState({
-        submitting: true
-      });
-      CallApi.post(`/account/${user.id}/favorite`, {
-        params: {
-          session_id
-        },
-        body: {
-          media_type: 'movie',
-          media_id: id,
-          favorite: !this.isFavorite()
-        }
-      })
-      .then(() => {
-        authActions.fetchFavoriteMovies({user, session_id})
-      })
-      .then(() => {
-          this.setState({
-            submitting: false
-          });
-        })
-    } else authActions.toggleLoginModal()
+    if (!session_id) {
+      authActions.toggleLoginModal()
+    }
+    this.setState({
+      submitting: true
+    });
+    CallApi.post(`/account/${user.id}/favorite`, {
+      params: {
+        session_id
+      },
+      body: {
+        media_type: 'movie',
+        media_id: id,
+        favorite: !this.isFavorite()
+      }
+    })
+    .then(() => authActions.fetchFavoriteMovies({user, session_id}))
+    .then(() => {
+        this.setState({
+          submitting: false
+        });
+    })
   }
 
   render() {

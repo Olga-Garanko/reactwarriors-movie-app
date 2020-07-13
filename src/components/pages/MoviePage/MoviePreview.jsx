@@ -1,7 +1,7 @@
 import React from "react";
-import MovieRated from "../../Movies/MovieRated";
-import MovieFavorite from "../../Movies/MovieFavorite";
-import MovieWatchlist from "../../Movies/MovieWatchlist";
+import MovieRated from "../MoviesPage/Movies/MovieRated";
+import MovieFavorite from "../MoviesPage/Movies/MovieFavorite";
+import MovieWatchlist from "../MoviesPage/Movies/MovieWatchlist";
 import MovieImage from "../../UIComponents/MovieImage";
 
 class MoviePreview extends React.Component {

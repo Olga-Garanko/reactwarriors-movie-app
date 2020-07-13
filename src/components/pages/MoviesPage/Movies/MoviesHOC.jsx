@@ -1,5 +1,5 @@
 import React from "react";
-import CallApi from "../../api/api";
+import CallApi from "../../../../api/api";
 import _ from "lodash";
 
 export default (Component) => class MoviesHOC extends React.Component {

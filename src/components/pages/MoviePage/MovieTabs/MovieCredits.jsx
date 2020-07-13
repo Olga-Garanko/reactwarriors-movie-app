@@ -35,7 +35,7 @@ class MovieCredits extends React.Component {
     return (
       <div className="mt-4 row">
         { movieCredits.map(actor =>
-            actor.profile_path && <div key={actor.id} className="col-2 mb-2">
+            actor.profile_path && <div key={actor.credit_id} className="col-2 mb-2">
               <MovieImage alt={actor.name} src={actor.profile_path} />
           </div>
         )}

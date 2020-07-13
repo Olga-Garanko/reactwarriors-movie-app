@@ -1,9 +1,9 @@
 import React from "react";
 import BookmarkIcon from '@material-ui/icons/Bookmark';
 import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-import CallApi from "../../api/api";
+import CallApi from "../../../../api/api";
 import PropTypes from "prop-types";
-import { withAuth } from '../../hoc/withAuth';
+import { withAuth } from '../../../../hoc/withAuth';
 
 class MovieWatchlist extends React.Component {
 
@@ -34,9 +34,7 @@ class MovieWatchlist extends React.Component {
           watchlist: !this.isWatchlist()
         }
       })
-      .then(() => {
-        authActions.fetchWatchlistMovies({user, session_id});
-      })
+      .then(() => authActions.fetchWatchlistMovies({user, session_id}))
       .then(() => {
           this.setState({
             submitting: false
@@ -46,10 +44,10 @@ class MovieWatchlist extends React.Component {
   }
 
   render() {
-    const { auth } = this.props;
+    const { session_id } = this.props.auth;
     return (
       <span>
-      { auth.session_id && this.isWatchlist() ? <BookmarkIcon onClick={this.changeWatchlist} /> : <BookmarkBorderIcon onClick={this.changeWatchlist} /> }
+      { session_id && this.isWatchlist() ? <BookmarkIcon onClick={this.changeWatchlist} /> : <BookmarkBorderIcon onClick={this.changeWatchlist} /> }
       </span>
     )
   }

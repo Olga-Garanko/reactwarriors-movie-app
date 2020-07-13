@@ -1,8 +1,9 @@
+import * as types from "./auth.types"
 import CallApi from "../../api/api";
 
 export const fetchAuth = session_id => dispatch => {
   dispatch({
-    type: "FETCH_REQUEST_AUTH"
+    type: types.FETCH_REQUEST_AUTH
   });
   CallApi.get("/account", {
     params: {
@@ -18,14 +19,14 @@ export const fetchAuth = session_id => dispatch => {
   })
   .catch(error => {
     dispatch({
-      type: "FETCH_ERROR_AUTH",
+      type: types.FETCH_ERROR_AUTH,
       payload: error
     });
   });
 };
 
 export const updateAuth = ({ user, session_id }) => ({
-	type: "UPDATE_AUTH",
+	type: types.UPDATE_AUTH,
 	payload: {
     user,
     session_id
@@ -34,18 +35,18 @@ export const updateAuth = ({ user, session_id }) => ({
 
 export const onLogOut = () => {
 	return {
-		type: "LOGOUT"
+		type: types.LOGOUT
 	};
 };
 
 export const toggleLoginModal = () => {
 	return {
-		type: "TOGGLE_LOGIN_MODAL"
+		type: types.TOGGLE_LOGIN_MODAL
 	};
 };
 
 export const fetchFavoriteMovies = ({ user, session_id }) => dispatch => {
-    CallApi.get(`/account/${user.id}/favorite/movies`, {
+    return CallApi.get(`/account/${user.id}/favorite/movies`, {
       params: {
         session_id
       }
@@ -57,13 +58,13 @@ export const fetchFavoriteMovies = ({ user, session_id }) => dispatch => {
 
 export const updateFavoriteMovies = movies => {
   return {
-    type: "UPDATE_FAVORITE_MOVIES",
+    type: types.UPDATE_FAVORITE_MOVIES,
     payload: movies
   };
 };
 
 export const fetchRatedMovies = ({ user, session_id }) => dispatch => {
-    CallApi.get(`/account/${user.id}/rated/movies`, {
+    return CallApi.get(`/account/${user.id}/rated/movies`, {
       params: {
         session_id
       }
@@ -75,13 +76,13 @@ export const fetchRatedMovies = ({ user, session_id }) => dispatch => {
 
 export const updateRatedMovies = movies => {
   return {
-    type: "UPDATE_RATED_MOVIES",
+    type: types.UPDATE_RATED_MOVIES,
     payload: movies
   };
 };
 
 export const fetchWatchlistMovies = ({ user, session_id }) => dispatch => {
-    CallApi.get(`/account/${user.id}/watchlist/movies`, {
+    return CallApi.get(`/account/${user.id}/watchlist/movies`, {
       params: {
         session_id
       }
@@ -93,7 +94,7 @@ export const fetchWatchlistMovies = ({ user, session_id }) => dispatch => {
 
 export const updateWatchlistMovies = movies => {
   return {
-    type: "UPDATE_WATCHLIST_MOVIES",
+    type: types.UPDATE_WATCHLIST_MOVIES,
     payload: movies
   };
 };

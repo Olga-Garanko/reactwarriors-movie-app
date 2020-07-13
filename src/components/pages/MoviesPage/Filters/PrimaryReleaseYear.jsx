@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import UISelect from "../UIComponents/UISelect";
+import UISelect from "../../../UIComponents/UISelect";
 
 export default class PrimaryReleaseYear extends React.PureComponent {
   static propTypes = {

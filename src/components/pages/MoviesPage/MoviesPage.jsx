@@ -1,6 +1,6 @@
 import React from "react";
-import Filters from "../../Filters/Filters";
-import MoviesList from "../../Movies/MoviesList";
+import Filters from "./Filters/Filters";
+import MoviesList from "./Movies/MoviesList";
 
 export default class MoviesPage extends React.Component {
   constructor() {

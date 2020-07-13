@@ -2,7 +2,6 @@ import React from "react";
 import MoviesPage from "./pages/MoviesPage/MoviesPage";
 import MoviePage from "./pages/MoviePage/MoviePage";
 import Header from "./Header/Header";
-import CallApi from "../api/api";
 import { BrowserRouter, Route } from "react-router-dom";
 import { withAuth } from '../hoc/withAuth';
 
